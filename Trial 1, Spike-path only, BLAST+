@@ -1,0 +1,25 @@
+qiime feature-classifier classify-consensus-blast  \
+        --i-query Trial1-silva-data-single_repseqs.qza \
+        --i-reference-taxonomy spikepath-refseqs-v3-4-taxonomy.qza  \
+        --i-reference-reads spikepath-refseqs-v3-4.qza  \
+        --p-perc-identity 0.99 \
+        --p-strand plus \
+        --o-classification Trial1-spike-single-99-BLAST-results.qza \
+        --o-search-results tophits.qza
+
+qiime tools export \
+  --input-path Trial1-spike-single-99-BLAST-results.qza  \
+  --output-path Trial1spikesingle99BLASTresults
+
+% qiime taxa collapse \
+    --i-table Trial1-silva-data-single_table.qza \
+    --i-taxonomy Trial1-spike-single-99-BLAST-results.qza \
+    --p-level 7 \
+    --o-collapsed-table collapsed-table-spike-single-BLAST.qza
+
+% qiime tools export \
+  --input-path collapsed-table-spike-single-BLAST.qza  \
+  --output-path collapsedtablespikesingleBLAST
+
+% biom convert \
+-i collapsedtablespikesingleBLAST/feature-table.biom -o collapsedta
