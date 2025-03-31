@@ -8,7 +8,7 @@
 
 # visualise the classification
 qiime metadata tabulate \
-  --m-input-file sklearn-classified-ASV-spikepath-refseqs-v3-4.qza \
+  --m-input-file Trial1_single_99_species_sklearn_results.qza \
   --o-visualization Trial1_single_99_species_sklearn_results.qzv
 
 qiime tools export \
