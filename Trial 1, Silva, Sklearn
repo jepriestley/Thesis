@@ -1,23 +1,23 @@
 % qiime feature-classifier classify-sklearn \
 --i-classifier 16s_v3v4_classifier.qza \
---i-reads Trial1-data-single_repseqs.qza \
+--i-reads Trial-data-single_repseqs.qza \
 --p-confidence 0.99 \
 --p-read-orientation same \
---o-classification Trial1_single_99_species_sklearn_results.qza \
+--o-classification Trial_single_99_species_sklearn_results.qza \
 --p-reads-per-batch 2000
 
 # visualise the classification
 qiime metadata tabulate \
-  --m-input-file Trial1_single_99_species_sklearn_results.qza \
-  --o-visualization Trial1_single_99_species_sklearn_results.qzv
+  --m-input-file Trial_single_99_species_sklearn_results.qza \
+  --o-visualization Trial_single_99_species_sklearn_results.qzv
 
 qiime tools export \
-  --input-path Trial1_single_99_species_sklearn_results.qza  \
+  --input-path Trial_single_99_species_sklearn_results.qza  \
   --output-path Trial1sklearnresults
 
 % qiime taxa collapse \
-    --i-table Trial1-data-single_table.qza \
-    --i-taxonomy Trial1_single_99_species_sklearn_results.qza \
+    --i-table Trial-data-single_table.qza \
+    --i-taxonomy Trial_single_99_species_sklearn_results.qza \
     --p-level 7 \
     --o-collapsed-table collapsed-table-single-v3v4-bay.qza
 
