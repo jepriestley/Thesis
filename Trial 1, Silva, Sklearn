@@ -1,29 +1,29 @@
 % qiime feature-classifier classify-sklearn \
 --i-classifier 16s_v3v4_classifier.qza \
---i-reads Trial1-silva-data-single_repseqs.qza \
+--i-reads Trial1-data-single_repseqs.qza \
 --p-confidence 0.99 \
 --p-read-orientation same \
---o-classification Trial1_silva_single_99_species_sklearn_results.qza \
+--o-classification Trial1_single_99_species_sklearn_results.qza \
 --p-reads-per-batch 2000
 
 # visualise the classification
 qiime metadata tabulate \
   --m-input-file sklearn-classified-ASV-spikepath-refseqs-v3-4.qza \
-  --o-visualization Trial1_silva_single_99_species_sklearn_results.qzv
+  --o-visualization Trial1_single_99_species_sklearn_results.qzv
 
 qiime tools export \
-  --input-path Trial1_silva_single_99_species_sklearn_results.qza  \
-  --output-path Trial1silvasklearnresults
+  --input-path Trial1_single_99_species_sklearn_results.qza  \
+  --output-path Trial1sklearnresults
 
 % qiime taxa collapse \
-    --i-table Trial1-silva-data-single_table.qza \
-    --i-taxonomy Trial1_silva_single_99_species_sklearn_results.qza \
+    --i-table Trial1-data-single_table.qza \
+    --i-taxonomy Trial1_single_99_species_sklearn_results.qza \
     --p-level 7 \
-    --o-collapsed-table collapsed-table-silva-single-v3v4-bay.qza
+    --o-collapsed-table collapsed-table-single-v3v4-bay.qza
 
 % qiime tools export \
-  --input-path collapsed-table-silva-single-v3v4-bay.qza  \
-  --output-path collapsedtablesilvasinglev3v4bay
+  --input-path collapsed-table-single-v3v4-bay.qza  \
+  --output-path collapsedtablesinglev3v4bay
 
 % biom convert \
--i collapsedtablesilvasinglev3v4bay/feature-table.biom -o collapsedtablesilvasinglev3v4bay.tsv --to-tsv
+-i collapsedtablesinglev3v4bay/feature-table.biom -o collapsedtablesinglev3v4bay.tsv --to-tsv
