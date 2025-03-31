@@ -1,0 +1,24 @@
+qiime feature-classifier classify-sklearn \
+--i-classifier spikepath-refseqs-v3-4-classifier.qza \
+--i-reads Trial1-data-single_repseqs.qza \
+--p-confidence 0.99 \
+--p-read-orientation same \
+--o-classification Trial1-spike-single-99-sklearn-results.qza \
+--p-reads-per-batch 2000
+
+qiime tools export \
+  --input-path Trial1-spike-single-99-sklearn-results.qza  \
+  --output-path Trial1spikesklearnresults
+
+% qiime taxa collapse \
+    --i-table Trial1-data-single_table.qza \
+    --i-taxonomy Trial1-spike-single-99-sklearn-results.qza \
+    --p-level 7 \
+    --o-collapsed-table collapsed-table-spike-single-bay.qza
+
+% qiime tools export \
+  --input-path collapsed-table-spike-single-bay.qza  \
+  --output-path collapsedtablespikesinglebay
+
+% biom convert \
+-i collapsedtablespikesinglebay/feature-table.biom -o collapsedtablespikesinglebay.tsv --to-tsv
