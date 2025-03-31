@@ -1,0 +1,77 @@
+#Get Silva data
+
+% qiime rescript get-silva-data \
+    --p-version '138.1' \
+    --p-target 'SSURef_NR99' \
+    --p-include-species-labels \
+    --o-silva-sequences silva-species-138-99-rna-seqs.qza \
+    --o-silva-taxonomy silva-species-138-99-tax.qza
+
+#Convert ran sequences to dna
+
+% qiime rescript reverse-transcribe \
+    --i-rna-sequences silva-species-138-99-rna-seqs.qza \
+    --o-dna-sequences silva-species-138-99-dna-seqs.qza
+
+#Clean sequences
+
+% qiime rescript cull-seqs \
+    --i-sequences silva-species-138-99-dna-seqs.qza \
+    --o-clean-sequences silva-species-138-99-dna-seqs-cleaned.qza
+
+#Filter sequences for just bacteria
+
+% qiime rescript filter-seqs-length-by-taxon \
+    --i-sequences silva-species-138-99-dna-seqs-cleaned.qza \
+    --i-taxonomy silva-species-138-99-tax.qza \
+    --p-labels Bacteria \
+    --p-min-lens 1200 \
+    --o-filtered-seqs silva-species-138-99-dna-seqs-filtered.qza \
+    --o-discarded-seqs silva-species-138-99-dna-seqs-discarded.qza
+
+#Remove replicates and retain all sequences with unique taxa
+
+% qiime rescript dereplicate \
+    --i-sequences silva-species-138-99-dna-seqs-filtered.qza \
+    --i-taxa silva-species-138-99-tax.qza \
+    --p-mode 'uniq' \
+    --o-dereplicated-sequences silva-species-138-99-dna-seqs-derep-uniq.qza  \
+    --o-dereplicated-taxa silva-species-138-99-taxa-derep-uniq.qza
+
+#Extract v3/v4 region 
+
+% qiime feature-classifier extract-reads \
+    --i-sequences silva-species-138-99-dna-seqs-derep-uniq.qza \
+    --p-f-primer CCTAYGGGRBGCASCAG \
+    --p-r-primer GGACTACNNGGGTATCTAAT \
+    --p-read-orientation 'forward' \
+    --o-reads 16S_v3v4_species_ref_seq_silva_138_99.qza
+
+#Remove replicates unless unique taxa
+
+% qiime rescript dereplicate \
+    --i-sequences 16S_v3v4_species_ref_seq_silva_138_99.qza \
+    --i-taxa silva-species-138-99-taxa-derep-uniq.qza \
+    --p-mode 'uniq' \
+    --o-dereplicated-sequences 16S_v3v4_species_ref_seq_silva_138_99_derep.qza \
+    --o-dereplicated-taxa  16s-silva-species-138-99-taxa-derep.qza
+
+#Filter taxa based on new v3/v4 sequences
+
+% qiime rescript filter-taxa \
+    --i-taxonomy 16s-silva-species-138-99-taxa-derep.qza \
+    --m-ids-to-keep-file 16S_v3v4_species_ref_seq_silva_138_99_derep.qza \
+    --o-filtered-taxonomy silva-species-v3v4-138-99-taxa.qza
+
+#Export taxa tree
+
+% qiime tools export \
+--input-path silva-species-v3v4-138-99-taxa.qza \
+--output-path silva-species-v3v4-138-99-taxa.tree
+
+#Build classifier
+
+% qiime feature-classifier fit-classifier-naive-bayes \
+    --i-reference-reads 16S_v3v4_species_ref_seq_silva_138_99_derep.qza \
+    --i-reference-taxonomy silva-species-v3v4-138-99-taxa.qza \
+    --o-classifier 16s_v3v4_classifier.qz
