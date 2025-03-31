@@ -1,10 +1,10 @@
 % qiime feature-classifier classify-consensus-blast \
-        --i-query Trial1-silva-data-single_repseqs.qza \
+        --i-query Trial1-data-single_repseqs.qza \
         --i-reference-taxonomy silva-species-v3v4-138-99-taxa.qza  \
         --i-reference-reads 16S_v3v4_species_ref_seq_silva_138_99_derep.qza  \
         --p-perc-identity 0.99 \
         --p-strand plus \
-        --o-classification Trial1-silva-single-v3v4-99-BLAST-results.qza \
+        --o-classification Trial1-single-v3v4-99-BLAST-results.qza \
         --o-search-results tophits.qza
 
 qiime tools export \
@@ -12,20 +12,20 @@ qiime tools export \
   --output-path Trial1silvasinglev3v499BLASTresults
 
 % qiime taxa collapse \
-    --i-table Trial1-silva-data-single_table.qza \
-    --i-taxonomy Trial1-silva-single-v3v4-99-BLAST-results.qza \
+    --i-table Trial1-data-single_table.qza \
+    --i-taxonomy Trial1-single-v3v4-99-BLAST-results.qza \
     --p-level 7 \
-    --o-collapsed-table collapsed-table-silva-single-v3v4.qza
+    --o-collapsed-table collapsed-table-single-v3v4.qza
 
 % qiime tools export \
-  --input-path collapsed-table-silva-single-v3v4.qza  \
-  --output-path collapsedtablesilvasinglev3v4
+  --input-path collapsed-table-single-v3v4.qza  \
+  --output-path collapsedtablesinglev3v4
 
 % biom convert \
--i collapsedtablesilvasinglev3v4/feature-table.biom -o collapsedtablesilvasinglev3v4.tsv --to-tsv
+-i collapsedtablesinglev3v4/feature-table.biom -o collapsedtablesinglev3v4.tsv --to-tsv
 
 % qiime taxa barplot \
-  --i-table Trial1-silva-data-single_table.qza \
-  --i-taxonomy Trial1-silva-single-v3v4-99-BLAST-results.qza \
+  --i-table Trial1-data-single_table.qza \
+  --i-taxonomy Trial1-single-v3v4-99-BLAST-results.qza \
   --m-metadata-file T1_metadata.txt \
-  --o-visualization T1-silva-v3v4-BLAST-bar-plots.qzv
+  --o-visualization T1-v3v4-BLAST-bar-plots.qzv
