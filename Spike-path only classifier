@@ -1,0 +1,34 @@
+#Get NCBI Data
+
+% qiime rescript get-ncbi-data \
+    --p-query '33175[BioProject] AND (Campylobacter[Organism] OR Salmonella[Organism] OR Listeria[Organism] OR Truepera[Organism] OR Imtechella[Organism] OR Allobacillus[Organism])' \
+    --o-sequences spikepath-refseqs.qza \
+    --o-taxonomy spikepath-taxonomy.qza 
+
+#Extract v3/v4 region 
+
+% qiime feature-classifier extract-reads \
+  --i-sequences spikepath-refseqs.qza \
+  --p-f-primer CCTAYGGGRBGCASCAG \
+  --p-r-primer GGACTACNNGGGTATCTAAT \
+  --p-min-length 100 \
+  --p-max-length 600 \
+  --o-reads spikepath-refseqs-v3-4.qza
+
+
+#Filter taxa based on new v3/v4 sequences
+
+% qiime rescript filter-taxa \
+    --i-taxonomy spikepath-taxonomy.qza \
+    --m-ids-to-keep-file spikepath-refseqs-v3-4.qza \
+    --o-filtered-taxonomy spikepath-refseqs-v3-4-taxonomy.qza
+
+#Evaluate and train naive Bayes classifier on reference sequences
+
+% qiime rescript evaluate-fit-classifier \
+    --i-sequences spikepath-refseqs-v3-4.qza \
+    --i-taxonomy spikepath-refseqs-v3-4-taxonomy.qza \
+    --o-classifier spikepath-refseqs-v3-4-classifier.qza \
+    --o-evaluation spikepath-refseqs-v3-4-classifier-evaluation.qzv \
+    --o-observed-taxonomy spikepath-refseqs-v3-4-predicted-taxonomy.qza
+
