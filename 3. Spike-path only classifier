@@ -1,7 +1,7 @@
 #Get NCBI Data
 
 % qiime rescript get-ncbi-data \
-    --p-query '33175[BioProject] AND (Campylobacter[Organism] OR Salmonella[Organism] OR Listeria[Organism] OR Truepera[Organism] OR Imtechella[Organism] OR Allobacillus[Organism])' \
+    --p-query 'Campylobacter[Organism] OR Salmonella[Organism] OR Listeria[Organism] OR Truepera[Organism] OR Imtechella[Organism] OR Allobacillus[Organism]' \
     --o-sequences spikepath-refseqs.qza \
     --o-taxonomy spikepath-taxonomy.qza 
 
