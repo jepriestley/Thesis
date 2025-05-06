@@ -40,8 +40,6 @@ microdata2$Treatment <- factor(case_when(grepl("^A", microdata2$Sample_ID) ~ "No
                                         TRUE ~ "Other"))
 
 
-#Download data set as csv
-write.csv(microdata2, file = "microdata2.csv", row.names = FALSE)
 
 #Calculate the sum of reads, richness, evenness, shannon diversity
 communitydata2 <- microdata2 %>%
