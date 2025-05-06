@@ -26,7 +26,7 @@ library(rstatix)
 library(ggsci)
 
 #Load in dataset
-mydata3 <- read.csv(file="Presence&#x3a;absence.csv",header=T)
+mydata3 <- read.csv(file="Presence_absence.csv",header=T)
 
 #Transpose dataset
 microdata3 <- pivot_longer(mydata3, 2:226, names_to = "Taxonomy", values_to = "Frequency")
