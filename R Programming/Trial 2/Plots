@@ -212,11 +212,6 @@ pathFrequencydunn2 <- dunn_test(data = path_data, Frequency ~ Treatment)
 #Download data set as csv
 write.csv(pathFrequencydunn2, file = "pathFrequencydunn2.csv", row.names = FALSE)
 
-#Group data by treatment and create an average frequency of each taxonomy
-
-Treatmentdataaverage <- Treatmentdata %>%
-  group_by(Treatment, Taxonomy, Spike) %>%
-  summarise(Avg = mean(Frequency))
 
 
 
