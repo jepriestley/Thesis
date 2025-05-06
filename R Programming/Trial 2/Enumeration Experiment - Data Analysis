@@ -1,0 +1,175 @@
+
+#Load in Packages
+library(grid)
+library(cowplot)
+library(gridExtra)
+library(patchwork)
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+library(rstatix)
+library(ggsci)
+
+Trial2data <- read_csv("Trial 2 data.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+Trial2data <- pivot_longer(Trial2data, 2:1026, names_to = "Taxonomy", values_to = "Frequency")
+
+
+#Create ES Dilution 'factor' column
+Trial2data$ESDilution <- factor(ifelse(grepl("5|6|7|8", Trial2data$Sample_ID), "1:10", "1:1000"))
+
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+Treatmentdata2 <- Trial2data %>%
+  mutate(Treatment = case_when (
+    grepl("^A", Sample_ID) ~ "No Spike Control",
+    grepl("^B", Sample_ID) ~ "0.1cfu",
+    grepl("^C", Sample_ID) ~ "1cfu",
+    grepl("^D", Sample_ID) ~ "10cfu",
+    grepl("^E", Sample_ID) ~ "100cfu",
+    grepl("^F", Sample_ID) ~ "1000cfu",
+    TRUE ~ "Other"
+  ))
+
+
+#Download data set as csv
+write.csv(Treatmentdata2, file = "Treatmentdata2.csv", row.names = FALSE)
+
+#Calculate the sum of reads, richness, evenness, shannon diversity
+communitydatat2 <- Treatmentdata2 %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency), Richness = specnumber(Frequency), Shannon = diversity(Frequency, index = "shannon"), Evenness = diversity(Frequency) / log(specnumber(Frequency)))
+
+#Join results to database
+communitydatat2 <- communitydatat2 %>%
+  left_join(Treatmentdata2 %>% select(Sample_ID, ESDilution, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+communitydatat2 <- communitydatat2 %>%
+  select(Sample_ID, Treatment, ESDilution, Reads, Richness, Shannon, Evenness)
+
+#Remove Sample_ID column
+communitydatat2 <- communitydatat2[, -1]
+
+#Download data set as csv
+write.csv(communitydatat2, file = "communitydatat2.csv", row.names = FALSE)
+
+
+#mean and sd
+summary_stats_trial2 <- communitydatat2 %>%
+  group_by(Treatment) %>%
+  summarise(
+    Mean = mean(Richness),
+    SD = sd(Richness)
+  )
+
+print(summary_stats_trial2)
+
+# A tibble: 6 × 3
+#Treatment         Mean    SD
+#<chr>            <dbl> <dbl>
+#1 0.1cfu            31.1  2.70
+#2 1000cfu           34.6  3.20
+#3 100cfu            32.8  1.83
+#4 10cfu             30.6  2.13
+#5 1cfu              32.4  5.50
+#6 No Spike Control  31.5  1.20
+
+
+
+# test to see if the data are normally distributed with a shaprio-wilk test for each response
+shapiro_test(communitydatat2, Richness, Evenness, Shannon, Reads)  
+
+#inspect the p value in the output
+# a p value less then 0.05 means we can reject the hypothesis the data are normally distributed 
+# if data are not both normal and equal variance - transform the data.
+shapiro_test(rank(communitydatat2$Richness))
+# no
+shapiro_test(rank(communitydatat2$Evenness)) 
+#yes
+shapiro_test(rank(communitydatat2$Shannon)) 
+#yes
+shapiro_test(rank(communitydatat2$Reads)) 
+#yes
+
+
+# test for equal variance
+levene_test(communitydatat2, Evenness ~ Treatment)
+# yes
+levene_test(communitydatat2, Evenness ~ ESDilution)
+# yes
+levene_test(communitydatat2, Richness ~ Treatment)
+# yes
+levene_test(communitydatat2, Richness ~ ESDilution)
+# yes
+levene_test(communitydatat2, Shannon ~ Treatment)
+# no
+levene_test(communitydatat2, Shannon ~ ESDilution)
+# yes
+levene_test(communitydatat2, Reads ~ Treatment)
+# yes
+levene_test(communitydatat2, Reads ~ ESDilution)
+# yes
+
+levene_test(communitydatat2, rank(Shannon) ~ Treatment)
+# no
+
+lmreadstrial2 <- lm(rank(Reads) ~ Treatment * ESDilution, data = communitydatat2)
+
+anova(lmreadstrial2)
+Analysis of Variance Table
+
+Response: rank(Reads)
+Df Sum Sq Mean Sq F value Pr(>F)
+Treatment             5 1028.5  205.70  1.0550 0.4011
+ESDilution            1  420.1  420.08  2.1546 0.1508
+Treatment:ESDilution  5  744.4  148.88  0.7636 0.5820
+Residuals            36 7019.0  194.97  
+
+
+#Conduct the Kruskal Wallis test
+kruskal_test(data = communitydatat2, Evenness ~ Treatment)
+# p = 0.000266 - yes
+kruskal_test(data = communitydatat2, Evenness ~ ESDilution)
+# p = 0.122
+kruskal_test(data = communitydatat2, Reads ~ Treatment)
+# p = 0.386
+kruskal_test(data = communitydatat2, Reads ~ ESDilution)
+# p = 0.143
+kruskal_test(data = communitydatat2, Richness ~ Treatment)
+# p = 0.0889 
+kruskal_test(data = communitydatat2, Richness ~ ESDilution)
+# p = 0.0274 - yes
+kruskal_test(data = communitydatat2, Shannon ~ Treatment)
+# p = 0.0000109 - yes
+kruskal_test(data = communitydatat2, Shannon ~ ESDilution)
+# p = 0.0354 - yes
+
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = communitydatat2, Richness ~ ESDilution)
+# effsize = 8% - moderate
+kruskal_effsize(data = communitydatat2, Shannon ~ Treatment)
+# effsize = 61% - large
+kruskal_effsize(data = communitydatat2, Shannon ~ ESDilution)
+# effsize = 7% - moderate
+
+RichnessDunntrial2 <- dunn_test(data = communitydatat2, Richness ~ ESDilution)
+ShannonDunntrial2 <- dunn_test(data = communitydatat2, Shannon ~ Treatment)
+ShannonDunntrial2_2 <- dunn_test(data = communitydatat2, Shannon ~ ESDilution)
+
+write.csv(RichnessDunntrial2, file = "RichnessDunntrial2.csv", row.names = FALSE)
+write.csv(ShannonDunntrial2, file = "ShannonDunntrial2.csv", row.names = FALSE)
+write.csv(ShannonDunntrial2_2, file = "ShannonDunntrial2_1.csv", row.names = FALSE)
