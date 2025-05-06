@@ -1,0 +1,187 @@
+
+#Load in Packages
+library(grid)
+library(cowplot)
+library(gridExtra)
+library(patchwork)
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+library(rstatix)
+library(ggsci)
+
+pmadata <- read_csv("live and dead.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+pmadata <- pivot_longer(pmadata, 2:1027, names_to = "Taxonomy", values_to = "Frequency")
+
+#Create ES Dilution 'factor' column
+pmadata$ESDilution <- factor(ifelse(grepl("5|6|7|8", pmadata$Sample_ID), "1:10", "1:1000"))
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+pmadata <- pmadata %>%
+  mutate(Treatment = case_when (
+    grepl("^HT", Sample_ID) ~ "Heat-killed",
+    grepl("^LV", Sample_ID) ~ "Live",
+    TRUE ~ "Other"
+  ))
+
+#Calculate the sum of reads, richness, evenness, shannon diversity
+pmacommunity <- pmadata %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency), Richness = specnumber(Frequency), Shannon = diversity(Frequency, index = "shannon"), Evenness = diversity(Frequency) / log(specnumber(Frequency)))
+
+#Join results to database
+pmacommunity <- pmacommunity %>%
+  left_join(pmadata %>% select(Sample_ID, ESDilution, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+pmacommunity <- pmacommunity %>%
+  select(Sample_ID, Treatment, ESDilution, Reads, Richness, Shannon, Evenness)
+
+#Remove Sample_ID column
+pmacommunity <- pmacommunity[, -1]
+
+#Download data set as csv
+write.csv(pmacommunity, file = "pmacommunity.csv", row.names = FALSE)
+
+
+
+#mean and sd
+summary_stats_pma <- pmacommunity %>%
+  group_by(Treatment) %>%
+  summarise(
+    Mean = mean(Richness),
+    SD = sd(Richness)
+  )
+
+print(summary_stats_pma)
+
+# A tibble: 2 × 3
+#Treatment    Mean    SD
+#<chr>       <dbl> <dbl>
+#1 Heat-killed  64.4  16.3
+#2 Live         65.6  34.5
+
+#inspect the p value in the output
+# a p value less then 0.05 means we can reject the hypothesis the data are normally distributed 
+# if data are not both normal and equal variance - transform the data.
+shapiro_test(rank(pmacommunity$Richness))
+# yes
+shapiro_test(rank(pmacommunity$Evenness)) 
+#yes
+shapiro_test(rank(pmacommunity$Shannon)) 
+#yes
+shapiro_test(rank(pmacommunity$Reads)) 
+#yes
+
+#Conduct the Kruskal Wallis test
+kruskal_test(data = pmacommunity, Evenness ~ Treatment)
+# p = 0.401 - no
+kruskal_test(data = pmacommunity, Evenness ~ ESDilution)
+# p = 0.0209 - yes
+kruskal_test(data = pmacommunity, Reads ~ Treatment)
+# p = 0.674 - no
+kruskal_test(data = pmacommunity, Reads ~ ESDilution)
+# p = 0.401 - no
+kruskal_test(data = pmacommunity, Richness ~ Treatment)
+# p = 0.495v - no
+kruskal_test(data = pmacommunity, Richness ~ ESDilution)
+# p = 0.318 - no
+kruskal_test(data = pmacommunity, Shannon ~ Treatment)
+# p = 0.834 - no 
+kruskal_test(data = pmacommunity, Shannon ~ ESDilution)
+# p = 0.00865 - yes
+
+#now look at spikes only
+pmadataspikes <- read_csv("Live and dead spikes.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+pmadataspikes <- pivot_longer(pmadata, 2:6, names_to = "Taxonomy", values_to = "Frequency")
+
+#Create ES Dilution 'factor' column
+pmadataspikes$ESDilution <- factor(ifelse(grepl("5|6|7|8", pmadataspikes$Sample_ID), "1:10", "1:1000"))
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+pmadataspikes <- pmadataspikes %>%
+  mutate(Treatment = case_when (
+    grepl("^HT", Sample_ID) ~ "Heat-killed",
+    grepl("^LV", Sample_ID) ~ "Live",
+    TRUE ~ "Other"
+  ))
+
+kruskal_test(data = pmadataspikes, Frequency ~ Treatment)
+# p = 0.452 - no
+kruskal_test(data = pmadataspikes, Frequency ~ ESDilution)
+# p = 0.139 - no
+
+
+#Calculate the sum of reads, richness, evenness, shannon diversity
+pmacommunityspikes <- pmadataspikes %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency), Richness = specnumber(Frequency), Shannon = diversity(Frequency, index = "shannon"), Evenness = diversity(Frequency) / log(specnumber(Frequency)))
+
+#Join results to database
+pmacommunityspikes <- pmacommunityspikes %>%
+  left_join(pmadataspikes %>% select(Sample_ID, ESDilution, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+pmacommunityspikes <- pmacommunityspikes %>%
+  select(Sample_ID, Treatment, ESDilution, Reads, Richness, Shannon, Evenness)
+
+#Remove Sample_ID column
+pmacommunityspikes <- pmacommunityspikes[, -1]
+
+#Download data set as csv
+write.csv(pmacommunityspikes, file = "pmacommunityspikes.csv", row.names = FALSE)
+
+kruskal_test(data = pmacommunityspikes, Reads ~ Treatment)
+# p = 0.248 - no
+kruskal_test(data = pmacommunityspikes, Reads ~ ESDilution)
+# p = 0.046 - very slightly 
+
+#rename spike-in
+pmadataspikes <- pmadataspikes %>%
+  mutate(Taxonomy = recode(Taxonomy,
+                           "d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Flavobacteriales;f__Flavobacteriaceae;g__Imtechella;s__Imtechella_halotolerans" = "I",
+                           "d__Bacteria;p__Campylobacterota;c__Campylobacteria;o__Campylobacterales;f__Campylobacteraceae;g__Campylobacter;__" = "C",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Bacillales;f__Bacillaceae;g__Allobacillus;s__Allobacillus_halotolerans" = "A",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Listeriaceae;g__Listeria;s__Listeria_monocytogenes" = "L",
+                           "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Salmonella;s__Salmonella_enterica" = "S"))
+
+#Download data set as csv
+write.csv(pmadataspikes, file = "pmadataspikes.csv", row.names = FALSE)
+
+chipma <- read.csv("pmadataspikes.csv", row.names = 1)
+
+chipma <- chipma + 0.5
+
+PMAchitest <- chisq.test(chipma)
+PMAchitest
+
+#Pearson's Chi-squared test
+
+#data:  chipma
+#X-squared = 34180, df = 39, p-value < 2.2e-16
+
+#Calculate the difference
+chipmadiff <- chipma %>%
+  summarise(difference =  Live - Heat)
+
+write.csv(chipmadiff, file = "chipmadiff.csv", row.names = FALSE)
+
