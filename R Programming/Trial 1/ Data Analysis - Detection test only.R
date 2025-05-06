@@ -40,9 +40,6 @@ microdata3$Treatment <- factor(case_when(grepl("^L", microdata3$Sample_ID) ~ "Li
                                         grepl("^Z", microdata3$Sample_ID) ~ "Campylobacter Presence",
                                         TRUE ~ "Other"))
   
-#Download data set as csv
-write.csv(microdata3, file = "microdata3.csv", row.names = FALSE)
-
 #Calculate the sum of reads, richness, evenness, shannon diversity
 communitydata3 <- microdata3 %>%
   group_by(Sample_ID) %>%
