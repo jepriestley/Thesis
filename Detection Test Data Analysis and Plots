@@ -1,0 +1,300 @@
+#Load in Packages
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+
+#Load in data set's
+
+presencedata <- read_csv("PresenceTrial1.csv")
+
+
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+presencedata <- pivot_longer(presencedata, 2:4, names_to = "Taxonomy", values_to = "Frequency")
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+presencedata <- presencedata %>%
+  mutate(Treatment = case_when (
+    grepl("^L", Sample_ID) ~ "Listeria",
+    grepl("^S", Sample_ID) ~ "Salmonella",
+    grepl("^Z", Sample_ID) ~ "Campylobacter",
+    TRUE ~ "Other"
+  ))
+
+#Group data by treatment and create an average frequency of each taxonomy
+
+#rename spike-in
+presencedatafinal <- presencedata %>%
+  mutate(Taxonomy = recode(Taxonomy,
+                           "d__Bacteria;p__Campylobacterota;c__Campylobacteria;o__Campylobacterales;f__Campylobacteraceae;g__Campylobacter;__" = "C",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Listeriaceae;g__Listeria;s__Listeria_monocytogenes" = "L",
+                           "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Salmonella;s__Salmonella_enterica" = "S"))
+
+#reorder treatment and taxonomy
+presencedatafinal$Taxonomy <- factor(presencedatafinal$Taxonomy, levels = c("C", "L", "S"))
+presencedatafinal$Lysis <- factor(ifelse(grepl("1|2|3", presencedatafinal$Sample_ID), "Gram-negative Lysis", "Gram-positive Lysis"))
+
+#Calculate the sum of reads
+Presencedata1 <- presencedatafinal %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency))
+
+
+#Join results to database
+Presencedata1 <- Presencedata1 %>%
+  left_join(presencedatafinal %>% select(Sample_ID, Lysis, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+Presencedata1 <- Presencedata1 %>%
+  select(Sample_ID, Treatment, Lysis, Reads)
+
+#Remove Sample_ID column
+Presencedata1 <- Presencedata1[, -1]
+
+
+#Download data set as csv
+write.csv(Presencedata1, file = "Presencedata1.csv", row.names = FALSE)
+
+# test to see if the data are normally distributed with a shaprio-wilk test for each response
+shapiro_test(Presencedata1, Reads)
+# p = 0.00279 - no
+
+hist(Presencedata1$Reads, ylab="Frequency", xlab="Reads", main = "Histogram of Reads")
+
+
+levene_test(Presencedata1, Reads ~ Treatment)
+# p = 0.136 - yes
+levene_test(Presencedata1, Reads ~ Lysis)
+# p = 0.841 - yes
+
+# if data are not both normal and equal variance - transform the data.
+shapiro_test(rank(Presencedata1$Reads))
+# p =  0.629 - yes
+
+lmreads4 <- lm(rank(Reads) ~ Treatment * Lysis, data = Presencedata1)
+
+anova(lmreads4)
+
+#Analysis of Variance Table
+
+#Response: rank(Reads)
+#Df Sum Sq Mean Sq F value   Pr(>F)    
+#Treatment        2 432.00 216.000 84.5217 8.48e-08 ***
+#Lysis            1   4.50   4.500  1.7609  0.20921    
+#Treatment:Lysis  2  17.33   8.667  3.3913  0.06801 .  
+#Residuals       12  30.67   2.556                     
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#Test individually:
+
+listeria <- "Listeria"
+listeria_data2 <- subset(Presencedata1, Treatment == listeria)
+
+campy <- "Campylobacter"
+campy_data2 <- subset(Presencedata1, Treatment == campy)
+
+salmonella <- "Salmonella"
+salmonella_data2 <- subset(Presencedata1, Treatment == salmonella)
+
+
+
+shapiro_test(listeria_data2, Reads)  
+# A tibble: 1 × 3
+#variable statistic      p
+#<chr>        <dbl>  <dbl>
+#1 Reads        0.787 0.0443 - no
+
+shapiro_test(rank(listeria_data2$Reads))
+
+# A tibble: 1 × 3
+#variable                   statistic p.value
+#<chr>                          <dbl>   <dbl>
+#1 rank(listeria_data2$Reads)     0.982   0.961 - yes
+
+shapiro_test(campy_data2, Reads)  
+# A tibble: 1 × 3
+#variable statistic       p
+#<chr>        <dbl>   <dbl>
+#1 Reads        0.656 0.00206 - no
+
+shapiro_test(rank(campy_data2$Reads))
+# A tibble: 1 × 3
+#variable                statistic p.value
+#<chr>                       <dbl>   <dbl>
+#1 rank(campy_data2$Reads)     0.982   0.961 - yes 
+
+
+shapiro_test(salmonella_data2, Reads)  
+# A tibble: 1 × 3
+#variable statistic     p
+#<chr>        <dbl> <dbl>
+#1 Reads        0.963 0.843 - yes
+
+levene_test(listeria_data2, Reads ~ Lysis)
+# p = 0.291 - yes
+
+levene_test(campy_data2, Reads ~ Lysis)
+# p = 0.241 - yes
+
+levene_test(salmonella_data2, Reads ~ Lysis)
+# p = 0.801 - yes
+
+
+
+
+#one-way anova
+lmrichcampy <- lm(rank(Reads) ~ Lysis, data = campy_data2)
+
+anova(lmrichcampy)
+
+Analysis of Variance Table
+
+Response: rank(Reads)
+Df  Sum Sq Mean Sq F value Pr(>F)
+Lysis      1  4.1667  4.1667    1.25 0.3262
+Residuals  4 13.3333  3.3333
+
+#one-way anova
+lmrichlisteria <- lm(rank(Reads) ~ Lysis, data = listeria_data2)
+
+anova(lmrichlisteria)
+
+Analysis of Variance Table
+
+Response: rank(Reads)
+Df Sum Sq Mean Sq F value  Pr(>F)  
+Lysis      1   13.5    13.5    13.5 0.02131 *
+  Residuals  4    4.0     1.0                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#one-way anova
+lmrichsalmonella <- lm(Reads ~ Lysis, data = salmonella_data2)
+
+anova(lmrichsalmonella)
+
+Analysis of Variance Table
+
+Response: Reads
+Df   Sum Sq  Mean Sq F value Pr(>F)
+Lysis      1 28453393 28453393  1.5716 0.2782
+Residuals  4 72418549 18104637 
+
+#Conduct the Kruskal Wallis test
+kruskal_test(data = Presencedata1, Reads ~ Treatment)
+# p = 0.000511 - yes
+kruskal_test(data = Presencedata1, Reads ~ Lysis)
+# p = 0.691 - no 
+
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = Presencedata1, Reads ~ Treatment)
+# effsize = 88% - large
+
+# If the K-W tests report a significant difference, and there are more then 2 groups, you can test which groups differ from which with a post-hoc Dunn test
+ReadsDunn4 <- dunn_test(data = Presencedata1, Reads ~ Treatment)
+
+
+#Download data set as csv
+write.csv(ReadsDunn4, file = "ReadsDunn4.csv", row.names = FALSE)
+
+
+Listeriaplot <- presencedatafinal %>%
+  filter(Treatment == "Listeria", Taxonomy == "L") %>%
+  ggplot(aes(x = Lysis, y = Frequency)) + 
+  geom_jitter(, width = 0.2, size = 1.5) +# Removed 'pattern' aesthetics for boxplot
+  stat_boxplot(geom = "errorbar", width = 0.15) + # Adds error bars to the boxplot
+  geom_boxplot(outlier.shape = 16, outlier.size = 2) + # Adds the actual boxplot with visible outliers
+  ggtitle(listeriatitle) + # Sets the plot title
+  labs(x = "Sample ID", y = "Frequency") + # Adds axis labels
+  scale_fill_npg() + # Customizes fill colors
+ # Sets a minimal theme
+  theme(legend.position = "none") # Removes the legend for fill
+
+Listeriaplot
+  
+listeriatitle <- expression(paste(italic("Listeria monocytogenes"), " presence/absence test"))
+listeriayaxis <- expression(paste("Number of ASV reads for", italic(" Listeria monocytogenes")))
+
+ggsave("Listeria.png", Listeriaplot, dpi = 600)
+
+Campyplot <- presencedatafinal %>%
+  filter(Treatment == "Campylobacter", Taxonomy == "C") %>%
+  ggplot(aes(x = Sample_ID, y = Frequency, fill = Sample_ID, pattern = Lysis)) +
+  geom_bar_pattern(stat = "identity") +
+  xlab("Repeat") +
+  ylab(campyyaxis) +
+  ggtitle(campytitle) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
+  scale_fill_npg()
+
+campytitle <- expression(paste(italic("Campylobacter jejuni"), " presence/absence test"))
+campyyaxis <- expression(paste("Number of ASV reads for", italic(" Campylobacter jejuni")))
+
+ggsave("campy.png", Campyplot, dpi = 600)
+
+salmonellaplot <- presencedatafinal %>%
+  filter(Treatment == "Salmonella", Taxonomy == "S") %>%
+  ggplot(aes(x = Sample_ID, y = Frequency, fill = Sample_ID, pattern = Lysis)) +
+  geom_bar_pattern(stat = "identity") +
+  xlab("Repeat") +
+  ylab(salyyaxis) +
+  ggtitle(saltitle) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
+  scale_fill_npg()
+
+saltitle <- expression(paste(italic("Salmonella nottigham"), " presence/absence test"))
+salyyaxis <- expression(paste("Number of ASV reads for", italic(" Salmonella nottigham")))
+
+ggsave("salmonella.png", salmonellaplot, dpi = 600)
+
+
+all <- presencedatafinal %>%
+  ggplot(aes(x = Taxonomy, y = Frequency, fill = Taxonomy, pattern = Lysis)) +
+  geom_bar_pattern(stat = "identity") +
+  xlab("Repeat") +
+  facet_wrap(.~ Treatment) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
+  scale_fill_npg()
+  
+averaged_data <- presencedatafinal %>%
+  filter(Treatment %in% c("Listeria", "Campylobacter", "Salmonella")) %>%
+  group_by(Treatment, Taxonomy, Lysis) %>%
+  summarise(Frequency = round(mean(Frequency), 0))
+
+# Plotting
+all <- averaged_data %>%
+  ggplot(aes(x = Taxonomy, y = Frequency, fill = Taxonomy, pattern = Lysis)) +
+  geom_bar_pattern(stat = "identity") +
+  xlab("Taxonomy") +
+  ylab("Average number of ASV reads (log scale)") +
+  facet_grid(Lysis ~ Treatment) +
+  geom_text(aes(label = scales::comma(Frequency)),
+            data = averaged_data %>% filter(Frequency > 0),
+            vjust = 0.5, size = 3, color = "black", nudge_y = 0.2) +
+  geom_hline(yintercept = 1, color = "grey70") +
+  scale_fill_npg(labels = c( "C" = expression(italic("Campylobacter")),"L" = expression(italic("Listeria monocytogenes")),"S" = expression(italic("Salmonella")), "T" = expression(italic("Truepera radiovictrix")), "I" = expression(italic("Imtechella halotolerans")), "A" = expression(italic("Allobacillus halotolerans")))) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
+  theme(strip.text = element_text(colour = "black"), strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5)) +
+  scale_y_log10(labels = scales::comma_format()) 
+ggsave("Presenceplotgrid.png", all, width = 10, height = 7, dpi = 600)
