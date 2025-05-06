@@ -1,0 +1,241 @@
+"Sample_ID","Taxonomy","Frequency","Treatment","copie_number","Spike","readcell"
+"A1","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A1","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A1","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A1","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A1","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A2","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A2","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A2","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A2","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A2","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A3","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A3","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A3","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A3","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A3","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A4","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A4","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A4","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A4","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A4","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A5","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A5","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A5","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A5","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A5","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A6","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A6","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A6","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A6","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A6","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A7","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A7","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A7","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A7","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A7","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"A8","C",0,"No Spike Control",3,"Pathogen Spike-in",0
+"A8","A",0,"No Spike Control",7,"Enumeration Spike-in",0
+"A8","L",0,"No Spike Control",6,"Pathogen Spike-in",0
+"A8","I",0,"No Spike Control",3,"Enumeration Spike-in",0
+"A8","S",0,"No Spike Control",7,"Pathogen Spike-in",0
+"B1","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B1","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B1","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B1","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B1","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B2","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B2","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B2","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B2","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B2","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B3","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B3","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B3","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B3","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B3","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B4","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B4","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B4","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B4","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B4","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B5","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B5","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B5","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B5","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B5","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B6","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B6","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B6","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B6","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B6","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B7","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B7","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B7","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B7","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B7","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"B8","C",0,"0.1cfu",3,"Pathogen Spike-in",0
+"B8","A",0,"0.1cfu",7,"Enumeration Spike-in",0
+"B8","L",0,"0.1cfu",6,"Pathogen Spike-in",0
+"B8","I",0,"0.1cfu",3,"Enumeration Spike-in",0
+"B8","S",0,"0.1cfu",7,"Pathogen Spike-in",0
+"C1","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C1","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C1","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C1","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C1","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C2","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C2","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C2","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C2","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C2","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C3","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C3","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C3","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C3","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C3","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C4","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C4","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C4","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C4","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C4","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C5","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C5","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C5","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C5","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C5","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C6","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C6","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C6","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C6","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C6","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C7","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C7","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C7","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C7","I",3,"1cfu",3,"Enumeration Spike-in",1
+"C7","S",0,"1cfu",7,"Pathogen Spike-in",0
+"C8","C",0,"1cfu",3,"Pathogen Spike-in",0
+"C8","A",0,"1cfu",7,"Enumeration Spike-in",0
+"C8","L",0,"1cfu",6,"Pathogen Spike-in",0
+"C8","I",0,"1cfu",3,"Enumeration Spike-in",0
+"C8","S",0,"1cfu",7,"Pathogen Spike-in",0
+"D1","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D1","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D1","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D1","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D1","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D2","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D2","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D2","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D2","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D2","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D3","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D3","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D3","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D3","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D3","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D4","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D4","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D4","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D4","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D4","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D5","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D5","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D5","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D5","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D5","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D6","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D6","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D6","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D6","I",27,"10cfu",3,"Enumeration Spike-in",9
+"D6","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D7","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D7","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D7","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D7","I",0,"10cfu",3,"Enumeration Spike-in",0
+"D7","S",0,"10cfu",7,"Pathogen Spike-in",0
+"D8","C",0,"10cfu",3,"Pathogen Spike-in",0
+"D8","A",0,"10cfu",7,"Enumeration Spike-in",0
+"D8","L",0,"10cfu",6,"Pathogen Spike-in",0
+"D8","I",6,"10cfu",3,"Enumeration Spike-in",2
+"D8","S",0,"10cfu",7,"Pathogen Spike-in",0
+"E1","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E1","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E1","L",8,"100cfu",6,"Pathogen Spike-in",1
+"E1","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E1","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E2","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E2","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E2","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E2","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E2","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E3","C",4,"100cfu",3,"Pathogen Spike-in",1
+"E3","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E3","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E3","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E3","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E4","C",2,"100cfu",3,"Pathogen Spike-in",1
+"E4","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E4","L",4,"100cfu",6,"Pathogen Spike-in",1
+"E4","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E4","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E5","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E5","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E5","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E5","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E5","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E6","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E6","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E6","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E6","I",5,"100cfu",3,"Enumeration Spike-in",2
+"E6","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E7","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E7","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E7","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E7","I",2,"100cfu",3,"Enumeration Spike-in",1
+"E7","S",0,"100cfu",7,"Pathogen Spike-in",0
+"E8","C",0,"100cfu",3,"Pathogen Spike-in",0
+"E8","A",0,"100cfu",7,"Enumeration Spike-in",0
+"E8","L",0,"100cfu",6,"Pathogen Spike-in",0
+"E8","I",0,"100cfu",3,"Enumeration Spike-in",0
+"E8","S",0,"100cfu",7,"Pathogen Spike-in",0
+"F1","C",11,"1000cfu",3,"Pathogen Spike-in",4
+"F1","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F1","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F1","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F1","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F2","C",0,"1000cfu",3,"Pathogen Spike-in",0
+"F2","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F2","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F2","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F2","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F3","C",6,"1000cfu",3,"Pathogen Spike-in",2
+"F3","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F3","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F3","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F3","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F4","C",21,"1000cfu",3,"Pathogen Spike-in",7
+"F4","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F4","L",8,"1000cfu",6,"Pathogen Spike-in",1
+"F4","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F4","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F5","C",4,"1000cfu",3,"Pathogen Spike-in",1
+"F5","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F5","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F5","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F5","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F6","C",0,"1000cfu",3,"Pathogen Spike-in",0
+"F6","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F6","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F6","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F6","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F7","C",2,"1000cfu",3,"Pathogen Spike-in",1
+"F7","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F7","L",0,"1000cfu",6,"Pathogen Spike-in",0
+"F7","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F7","S",0,"1000cfu",7,"Pathogen Spike-in",0
+"F8","C",2,"1000cfu",3,"Pathogen Spike-in",1
+"F8","A",0,"1000cfu",7,"Enumeration Spike-in",0
+"F8","L",5,"1000cfu",6,"Pathogen Spike-in",1
+"F8","I",0,"1000cfu",3,"Enumeration Spike-in",0
+"F8","S",9,"1000cfu",7,"Pathogen Spike-in",1
