@@ -1,0 +1,605 @@
+#Load in Packages
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+library(rstatix)
+
+#Load in data set's
+
+backgrounddata <- read_csv("Trial 2 Background all.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+backgrounddata <- pivot_longer(backgrounddata, 2:1027, names_to = "Taxonomy", values_to = "Frequency")
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+backgrounddata<- backgrounddata %>%
+  mutate(Treatment = case_when (
+    grepl("^BCA", Sample_ID) ~ "-1",
+    grepl("^BCB", Sample_ID) ~ "-2",
+    grepl("^BCC", Sample_ID) ~ "-3",
+    grepl("^BCD", Sample_ID) ~ "-4",
+    grepl("^BCE", Sample_ID) ~ "-5",
+    grepl("^BCF", Sample_ID) ~ "-6",
+    TRUE ~ "Other"
+  ))
+
+backgrounddata$spike <- factor(ifelse(grepl("5|6|7|8", backgrounddata$Sample_ID), "1:10", "1:1000"))
+backgrounddata$Treatment <- factor(backgrounddata$Treatment, levels = c("-1", "-2", "-3", "-4", "-5", "-6"))
+
+
+#Calculate the sum of reads, richness, evenness, shannon diversity
+backgroundcommunity <- backgrounddata %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency), Richness = specnumber(Frequency), Shannon = diversity(Frequency, index = "shannon"), Evenness = diversity(Frequency) / log(specnumber(Frequency)))
+
+#Join results to database
+backgroundcommunity <- backgroundcommunity %>%
+  left_join(backgrounddata %>% select(Sample_ID, spike, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+backgroundcommunity <- backgroundcommunity %>%
+  select(Sample_ID, Treatment, spike, Reads, Richness, Shannon, Evenness)
+
+#Remove Sample_ID column
+backgroundcommunity <- backgroundcommunity[, -1]
+
+#Download data set as csv
+write.csv(backgroundcommunity, file = "backgroundcommunity.csv", row.names = FALSE)
+
+
+#mean and sd
+summary_stats_background <- backgroundcommunity %>%
+  group_by(Treatment) %>%
+  summarise(
+    Mean = mean(Richness),
+    SD = sd(Richness)
+  )
+
+print(summary_stats_background)
+
+# A tibble: 6 × 3
+#Treatment  Mean    SD
+#<fct>     <dbl> <dbl>
+#1 -1         29.6  2.20
+#2 -2         49.4 16.4 
+#3 -3         69.4 23.6 
+#4 -4         94   48.3 
+#5 -5         77.9  9.26
+#6 -6        103.  41.2 
+
+
+# test to see if the data are normally distributed with a shaprio-wilk test for each response
+shapiro_test(backgroundcommunity, Richness, Evenness, Shannon, Reads)  
+
+# A tibble: 4 × 3
+#variable statistic             p
+#<chr>        <dbl>         <dbl>
+#1 Evenness     0.960 0.0991  - yes     
+#2 Reads        0.682 0.00000000641 - no
+#3 Richness     0.862 0.0000460 -no 
+#4 Shannon      0.926 0.00506 - no
+
+#inspect the p value in the output
+# a p value less then 0.05 means we can reject the hypothesis the data are normally distributed 
+# if data are not both normal and equal variance - transform the data.
+shapiro_test(rank(backgroundcommunity$Reads)) 
+#yes
+
+# test for equal variance
+levene_test(backgroundcommunity, Evenness ~ Treatment)
+# no
+levene_test(backgroundcommunity, Evenness ~ spike)
+# yes
+levene_test(backgroundcommunity, Richness ~ Treatment)
+# yes
+levene_test(backgroundcommunity, Richness ~ spike)
+# yes
+levene_test(backgroundcommunity, Shannon ~ Treatment)
+# no
+levene_test(backgroundcommunity, Shannon ~ spike)
+# yes
+levene_test(backgroundcommunity, Reads ~ Treatment)
+# no
+levene_test(backgroundcommunity, Reads ~ spike)
+# yes
+
+levene_test(backgroundcommunity, rank(Evenness) ~ Treatment)
+# no
+levene_test(backgroundcommunity, rank(Reads) ~ Treatment)
+# yes
+levene_test(backgroundcommunity, rank(Shannon) ~ Treatment)
+# no
+
+lmreadsbackground <- lm(rank(Reads) ~ Treatment * spike, data = backgroundcommunity)
+
+anova(lmreadsbackground)
+
+#Analysis of Variance Table
+
+#Response: rank(Reads)
+#Df Sum Sq Mean Sq F value    Pr(>F)    
+#Treatment        5 4878.5  975.70  8.3981 2.428e-05 ***
+#spike            1    3.0    3.00  0.0258    0.8732    
+#Treatment:spike  5  148.0   29.60  0.2548    0.9346    
+#Residuals       36 4182.5  116.18                      
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#Conduct Kruskal Wallis test
+kruskal_test(data = backgroundcommunity, Richness ~ Treatment)
+# p = 0.0000188 - yes
+kruskal_test(data = backgroundcommunity, Richness ~ spike)
+# p = 0.877 - no
+kruskal_test(data = backgroundcommunity, Shannon ~ Treatment)
+# p = 0.0000739 - yes
+kruskal_test(data = backgroundcommunity, Shannon ~ spike)
+# p = 0.483 - no
+
+#Load in data set's
+
+backgrounddataspikes <- read_csv("background spikes only.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+backgrounddataspikes <- pivot_longer(backgrounddataspikes, 2:6, names_to = "Taxonomy", values_to = "Frequency")
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+backgrounddataspikes <- backgrounddataspikes %>%
+  mutate(Treatment = case_when (
+    grepl("^BCA", Sample_ID) ~ "-1",
+    grepl("^BCB", Sample_ID) ~ "-2",
+    grepl("^BCC", Sample_ID) ~ "-3",
+    grepl("^BCD", Sample_ID) ~ "-4",
+    grepl("^BCE", Sample_ID) ~ "-5",
+    grepl("^BCF", Sample_ID) ~ "-6",
+    TRUE ~ "Other"
+  ))
+
+backgrounddataspikes$spike <- factor(ifelse(grepl("5|6|7|8", backgrounddataspikes$Sample_ID), "1:10", "1:1000"))
+backgrounddataspikes$Treatment <- factor(backgrounddataspikes$Treatment, levels = c("-1", "-2", "-3", "-4", "-5", "-6"))
+
+
+#rename spike-in
+backgrounddataspikes <- backgrounddataspikes %>%
+  mutate(Taxonomy = recode(Taxonomy,
+                           "d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Flavobacteriales;f__Flavobacteriaceae;g__Imtechella;s__Imtechella_halotolerans" = "I",
+                           "d__Bacteria;p__Campylobacterota;c__Campylobacteria;o__Campylobacterales;f__Campylobacteraceae;g__Campylobacter;__" = "C",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Bacillales;f__Bacillaceae;g__Allobacillus;s__Allobacillus_halotolerans" = "A",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Listeriaceae;g__Listeria;s__Listeria_monocytogenes" = "L",
+                           "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Salmonella;s__Salmonella_enterica" = "S"))
+
+
+#reorder treatment and taxonomy
+backgrounddataspikes$Spike <- factor(ifelse(backgrounddataspikes$Taxonomy %in% c("C", "L", "S"), "Pathogen Spike-in", "Enumeration Spike-in"))
+
+#Calculate the sum of reads
+backgroundcommunityspikes <- backgrounddataspikes %>%
+  group_by(Sample_ID) %>%
+  summarise(Reads = sum(Frequency), Richness = specnumber(Frequency))
+
+#Join results to database
+backgroundcommunityspikes <- backgroundcommunityspikes %>%
+  left_join(backgrounddataspikes %>% select(Sample_ID, spike, Spike, Treatment), by = "Sample_ID") %>%
+  distinct()
+
+#reorder 
+backgroundcommunityspikes <- backgroundcommunityspikes %>%
+  select(Sample_ID, Treatment, spike, Spike, Reads, Richness)
+
+#Remove Sample_ID column
+backgroundcommunityspikes <- backgroundcommunityspikes[, -1]
+
+#Download data set as csv
+write.csv(backgroundcommunityspikes, file = "backgroundcommunityspikes.csv", row.names = FALSE)
+
+
+#mean and sd
+summary_stats_backgroundspikes <- backgroundcommunityspikes %>%
+  group_by(Treatment) %>%
+  summarise(
+    Mean = mean(Richness),
+    SD = sd(Richness)
+  )
+
+print(summary_stats_backgroundspikes)
+
+# A tibble: 6 × 3
+#Treatment  Mean    SD
+#<fct>     <dbl> <dbl>
+#1 -1        0.125 0.342
+#2 -2        1     0.516
+#3 -3        1.62  1.02 
+#4 -4        2.88  1.20 
+#5 -5        2.62  1.02 
+#6 -6        3     0.894
+
+
+# test to see if the data are normally distributed with a shaprio-wilk test for each response
+shapiro_test(backgroundcommunityspikes, Richness, Reads) 
+# no and no
+
+#inspect the p value in the output
+# a p value less then 0.05 means we can reject the hypothesis the data are normally distributed 
+# if data are not both normal and equal variance - transform the data.
+shapiro_test(rank(backgroundcommunityspikes$Reads)) 
+#no
+shapiro_test(rank(backgroundcommunityspikes$Richness)) 
+#yes
+levene_test(backgroundcommunityspikes, Richness ~ Treatment)
+# no
+levene_test(backgroundcommunityspikes, Richness ~ spike)
+# no 
+levene_test(backgroundcommunityspikes, rank(Richness) ~ Treatment)
+# no
+levene_test(backgroundcommunityspikes, rank(Richness) ~ spike)
+# no
+
+kruskal_test(data = backgroundcommunityspikes, Reads ~ Treatment)
+# p = 2.40e-14 - no
+kruskal_test(data = backgroundcommunityspikes, Reads ~ spike)
+# p = 0.137 - no
+
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = backgroundcommunityspikes, Reads ~ Treatment)
+# effsize = 76% - large
+
+readsdunnbackgroundspikes <- dunn_test(data = backgroundcommunityspikes, Reads ~ Treatment)
+
+write.csv(readsdunnbackgroundspikes, file = "readsdunnbackgroundspike.csv", row.names = FALSE)
+
+
+kruskal_test(data = backgroundcommunityspikes, Richness ~ Treatment)
+# p = 7.48e-12 - yes
+kruskal_test(data = backgroundcommunityspikes, Richness ~ spike)
+# p = 0.869 - no
+
+
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = backgroundcommunityspikes, Richness ~ Treatment)
+# effsize = 62% - large
+
+richnessdunnbackgroundspikes <- dunn_test(data = backgroundcommunityspikes, Richness ~ Treatment)
+
+write.csv(richnessdunnbackgroundspikes, file = "richnessdunnbackgroundspike.csv", row.names = FALSE)
+
+
+#Group data by treatment and create an average frequency of each taxonomy
+
+backgroundspikesaverage <- backgrounddataspikes %>%
+  group_by(Treatment, Taxonomy, Spike) %>%
+  summarise(Avg = mean(Frequency))
+
+backgroundspikesaverage <- backgroundspikesaverage %>%
+  mutate(Avg = round(Avg, 1))
+
+
+#reorder treatment and taxonomy
+backgroundspikesaverage$Treatment <- factor(backgroundspikesaverage$Treatment, levels = c("-1", "-2", "-3", "-4", "-5", "-6"))
+
+backgroundspikesaverage$Taxonomy <- factor(backgroundspikesaverage$Taxonomy, levels = c("C","L", "S", "I", "A"))
+
+
+#Combined plots showing Bacteria on the X axis - wrap 
+backgroundspikesplot <- ggplot(backgroundspikesaverage, aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.07, pattern_spacing = 0.03, pattern_key_scale_factor = 0.6) +
+  geom_text(aes(label = Avg),
+            data = backgroundspikesaverage %>% filter(Avg > 0),
+            vjust = 0.5, size = 3, color = "black", nudge_y = 250) +
+  facet_wrap(.~Treatment, nrow = 4) +
+  labs(x = "Bacteria", y = "Number of reads (Average)", pattern = "Spike-in Standard") +
+  scale_fill_npg(labels = c( "C" = expression(italic("Campylobacter")),"L" = expression(italic("Listeria monocytogenes")),"S" = expression(italic("Salmonella enterica")), "I" = expression(italic("Imtechella halotolerans")), "A" = expression(italic("Allobacillus halotolerans")))) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(legend.key.size = unit(0.5, "cm"), axis.title = element_blank(), strip.text = element_text(colour = "black"), strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5), axis.text.x = element_blank(), axis.ticks = element_blank(),
+        legend.background = element_blank())
+
+backgroundspikesplot
+
+theme_set(theme_classic())
+ggsave("backgroundspikesplot.png", backgroundspikesplot, width = 10, height = 10, units = "in", dpi = 600)
+
+
+
+# Add the 16s copie number to the Treatmentdata dataset based on the Taxonomy column
+backgroundspikesaveragecopy <- backgroundspikesaverage %>%
+  mutate(copie_number = case_when(
+    Taxonomy == "A" ~ 7,
+    Taxonomy == "I" ~ 3,
+    Taxonomy == "S" ~ 7,
+    Taxonomy == "L" ~ 6,
+    Taxonomy == "C" ~ 3,
+    TRUE ~ NA_real_
+  ))
+
+# Create a new dataset with the readcell calculation and set to 0 decimal places
+backgroundspikesaveragecopy <- backgroundspikesaveragecopy %>%
+  mutate(readcell = round(Avg / copie_number, 0))
+
+# Print the new dataset
+print(backgroundspikesaveragecopy)
+
+write.csv(backgroundspikesaveragecopy, file = "backgroundspikesaveragecopy.csv", row.names = FALSE)
+
+
+
+#plot
+backgroundaveragespikecopyplot <- ggplot(backgroundspikesaveragecopy, aes(x = Taxonomy, y = readcell, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.07, pattern_spacing = 0.03, pattern_key_scale_factor = 0.6) +
+  geom_text(aes(label = readcell),
+            data = backgroundspikesaveragecopy %>% filter(readcell > 0),
+            vjust = 0.5, size = 3, color = "black", nudge_y = 20) +
+  facet_wrap(.~Treatment, nrow = 4) +
+  labs(x = "Bacteria", y = "Average number of reads", pattern = "Spike-in Standard") +
+  scale_fill_npg(labels = c( "C" = expression(italic("Campylobacter")), "L" = expression(italic("Listeria monocytogenes")),"S" = expression(italic("Salmonella enterica")), "I" = expression(italic("Imtechella halotolerans")), "A" = expression(italic("Allobacillus halotolerans")))) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(legend.key.size = unit(0.5, "cm"), axis.title = element_blank(), strip.text = element_text(colour = "black"), strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5), axis.text.x = element_blank(), axis.ticks = element_blank(),
+        legend.background = element_blank())
+
+backgroundaveragespikecopyplot
+
+
+ggsave("backgroundaveragespikecopyplot.png", backgroundaveragespikecopyplot, width = 10, height = 13, units = "in", dpi = 600)
+
+
+
+# Visualize the richness comparison
+library(ggplot2)
+
+ggplot(richness_summary, aes(x = Treatment, y = Mean_Richness, fill = spike)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(aes(ymin = Mean_Richness - SD_Richness, ymax = Mean_Richness + SD_Richness),
+                position = position_dodge(0.9), width = 0.25) +
+  labs(title = "Species Richness by Treatment and Amount of Enumeration Spike-in Standard",
+       x = "Treatment",
+       y = "Mean Species Richness") +
+  scale_colour_npg()
+
+richness_summary
+
+diversity_data <- backgrounddata %>%
+  group_by(Sample_ID, Treatment, spike) %>%
+  summarise(Shannon = diversity(Frequency, index = "shannon"), .groups = 'drop')
+
+relative_abundance <- backgrounddata %>%
+  group_by(Sample_ID) %>%
+  mutate(Relative_Abundance = Frequency / sum(Frequency))
+
+# ANOVA for richness
+anova_richness <- aov(Richness ~ spike * Treatment, data = richness_data)
+summary(anova_richness)
+
+# ANOVA for Shannon diversity
+anova_diversity <- aov(Shannon ~ spike * Treatment, data = diversity_data)
+summary(anova_diversity)
+
+# T-test for relative abundance between lysis methods
+spike_groups <- relative_abundance %>%
+  group_by(spike) %>%
+  summarise(Relative_Abundance = list(Relative_Abundance))
+
+ttest_relative_abundance <- t.test(spike_groups$Relative_Abundance[[1]], spike_groups$Relative_Abundance[[2]])
+print(ttest_relative_abundance)
+
+
+# Richness boxplot
+ggplot(richness_data, aes(x = Treatment, y = Richness, fill = Treatment, pattern = spike)) +
+  labs(title = "Species Richness by Treatment and amount of Enumeration Spike-in standard",
+       x = "Treatment",
+       y = "Species Richness") +
+  geom_boxplot_pattern(position = position_dodge(0.9), width = 0.5, colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("1:10" = "stripe", "1:1000" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Enumeration Spike-in Dilution", override.aes = list(fill = "white"))) +
+  scale_fill_npg() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right")
+
+# Shannon diversity boxplot
+ggplot(diversity_data, aes(x = Treatment, y = Shannon, fill = Treatment, pattern = spike)) +
+  labs(title = "Shannon Diversity by Treatment and amount of Enumeration Spike-in standard",
+       x = "Treatment",
+       y = "Shannon Diversity") +
+  geom_boxplot_pattern(position = position_dodge(0.9), width = 0.5, colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("1:10" = "stripe", "1:1000" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Enumeration Spike-in Dilution", override.aes = list(fill = "white"))) +
+  scale_fill_npg() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right")
+
+# Relative abundance boxplot
+ggplot(relative_abundance, aes(x = Treatment, y = Relative_Abundance, fill = spike)) +
+  geom_boxplot() +
+  labs(title = "Relative Abundance by Treatment and amount of Enumeration Spike-in standard",
+       x = "Treatment",
+       y = "Relative Abundance") +
+  scale_colour_npg()
+
+# Calculate Bray-Curtis dissimilarity
+dissimilarity_matrix <- vegdist( backgrounddata %>% 
+                                   pivot_wider(names_from = Taxonomy, values_from = Frequency, values_fill = list(Frequency = 0)) %>% 
+                                   select(-Sample_ID, -Treatment, -spike), method = "bray")
+
+# PCoA
+pcoa_results <- cmdscale(dissimilarity_matrix, k = 2)
+pcoa_df <- data.frame(pcoa_results, backgrounddata %>% select(Sample_ID, spike, Treatment))
+
+ggplot(pcoa_df, aes(x = X1, y = X2, color = Treatment)) +
+  geom_point() +
+  labs(title = "PCoA of Bray-Curtis Dissimilarity",
+       x = "PCoA1",
+       y = "PCoA2")
+
+# metaMDS
+mds_results <- metaMDS(dissimilarity_matrix, k = 2)
+mds_df <- data.frame(mds_results$points, backgrounddata %>% select(Sample_ID, spike))
+
+ggplot(mds_df, aes(x = MDS1, y = MDS2, color = spike)) +
+  geom_point() +
+  labs(title = "metaMDS of Bray-Curtis Dissimilarity",
+       x = "MDS1",
+       y = "MDS2") +
+  theme_minimal()
+
+library(broom)
+
+# Tidy the ANOVA results
+tidy_anova <- tidy(anova_richness)
+print(tidy_anova)
+
+# Save the tidied ANOVA results to a CSV file
+write.csv(tidy_anova, "anova_results_table2.csv", row.names = FALSE)
+
+# Tidy the ANOVA results
+tidy_anova_d <- tidy(anova_diversity)
+print(tidy_anova_d)
+
+# Save the tidied ANOVA results to a CSV file
+write.csv(tidy_anova_d, "anova_results_table_d2.csv", row.names = FALSE)
+
+library(reshape2)
+
+
+# Pivot the data to wide format
+abundance_matrix <- backgrounddata %>%
+  pivot_wider(names_from = Taxonomy, values_from = Frequency, values_fill = list(Frequency = 0)) %>%
+  select(-Sample_ID, -Treatment, -spike) %>%
+  as.matrix()
+
+# Set row names to Sample_ID
+rownames(abundance_matrix) <- backgrounddata %>%
+  distinct(Sample_ID) %>%
+  pull(Sample_ID)
+
+# Calculate the Bray-Curtis dissimilarity matrix
+dissimilarity_matrix <- vegdist(abundance_matrix, method = "bray")
+
+# Perform PCoA
+pcoa_result <- cmdscale(dissimilarity_matrix, eig = TRUE, k = 2)
+
+
+# Extract PCoA points
+pcoa_points <- pcoa_result$points
+
+# Prepare data for plotting
+pcoa_data <- data.frame(Sample_ID = rownames(pcoa_points),
+                        PCoA1 = pcoa_points[, 1],
+                        PCoA2 = pcoa_points[, 2])
+
+# Add treatment information
+pcoa_data <- pcoa_data %>%
+  left_join(backgrounddata %>% select(Sample_ID, Treatment) %>% distinct(), by = "Sample_ID")
+
+library(ggplot2)
+ggplot(pcoa_data, aes(x = PCoA1, y = PCoA2, color = Treatment)) +
+  geom_point(size = 3) +
+  labs(title = "PCoA Plot of Bray-Curtis Dissimilarity",
+       x = "PCoA1",
+       y = "PCoA2") +
+  scale_color_npg() + theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right")
+
+
+# Perform NMDS
+nmds_result <- metaMDS(dissimilarity_matrix, distance = "bray")
+
+# Extract PCoA points
+nmds_points <- nmds_result$points
+
+# Prepare data for plotting
+nmds_data <- data.frame(Sample_ID = rownames(nmds_result$points),
+                        NMDS1 = nmds_result$points[, 1],
+                        NMDS2 = nmds_result$points[, 2])
+
+# Add treatment information
+nmds_data <- nmds_data %>%
+  left_join(backgrounddata %>% select(Sample_ID, Treatment) %>% distinct(), by = "Sample_ID")
+
+# Create the NMDS plot
+ggplot(nmds_data, aes(x = NMDS1, y = NMDS2, color = Treatment)) +
+  geom_point(size = 3) +
+  labs(title = "NMDS Plot of Bray-Curtis Dissimilarity",
+       x = "NMDS1",
+       y = "NMDS2") +
+  scale_color_npg() + theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right") + ordihull(ord)
+
+
+# Calculate the Bray-Curtis dissimilarity matrix
+dissimilarity_matrix <- vegdist(backgrounddata, method = "bray")
+
+# Perform NMDS
+nmds_result <- metaMDS(backgrounddata, distance = "bray", k = 2, trymax = 100)
+
+plot(nmds_result)
+
+community_matrix <- backgrounddata %>%
+  select(Sample_ID, Taxonomy, Frequency) %>%
+  pivot_wider(names_from = Taxonomy, values_from = Frequency, values_fill = list(Frequency = 0))
+
+rownames(community_matrix) <- community_matrix$Sample_ID
+community_matrix <- community_matrix %>% select(-Sample_ID) %>% as.matrix()
+
+nmds_result <- metaMDS(community_matrix, distance = "bray", k = 2, trymax = 100)
+plot(nmds_result, type="p") 
+
+
+
+# Prepare data for plotting
+nmds_data <- data.frame(Sample_ID = rownames(nmds_result$points),
+                        NMDS1 = nmds_result$points[, 1],
+                        NMDS2 = nmds_result$points[, 2])
+
+# Add treatment information (assuming 'Treatment' is a column in your original data)
+nmds_data <- nmds_data %>%
+  left_join(backgrounddata %>% select(Sample_ID) %>% distinct(), by = "Sample_ID")
+
+# Create a color palette
+treatment_colors <- rainbow(length(unique(nmds_data$Treatment)))
+names(treatment_colors) <- unique(nmds_data$Treatment)
+
+# Plot NMDS with points
+plot(nmds_result, type="p")
+ordiellipse(nmds_result, groups = nmds_data$Treatment, display = "sites", col = treatment_colors)
+
+plot
+plot(nmds_result, display = c("sites"), choices = c(1, 2), type="t") # Add points
+
+ordi
+# Add legend
+legend("topright", legend = unique(nmds_data$Treatment), col = Treatment, pch = 19)
+
+# Create the NMDS plot
+ggplot(nmds_data, aes(x = NMDS1, y = NMDS2, color = Treatment)) +
+  geom_point(size = 3) +
+  labs(title = "NMDS Plot of Bray-Curtis Dissimilarity",
+       x = "NMDS1",
+       y = "NMDS2") +
+  scale_color_npg() + theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "right")
+
+
+
+
+# Define the data
+data <- data.frame(
+  Listeria = c(0, 0, 205851.9, 1525416.7, 0, 739130.4, 748661, 239799.2, 476869.1, 0, 0, 0, 1305521.5, 0, 0, 0, 0),
+  Salmonella = c(114143.9, 8908.7, 12000, 14166.7, 49586.8, 0, 29230.8, 0, 13360.3, 136413.6, 281921.8, 86931.7,
+                 58036.8, 67034.9, 40033.8, 145975.4, 185238.2),
+  Campy = c(0, 0, 561383, 1125833.3, 0, 0, 340626.8, 153775.1, 416410.3, 0, 0, 0,
+            2505971.4, 0, 0, 0, 0)
+)
+
+# Print the data frame
+print(data)
+
+backgroundcfuchitest <- chisq.test(data)
+backgroundcfuchitest
+
