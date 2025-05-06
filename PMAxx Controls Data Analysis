@@ -185,3 +185,22 @@ chipmadiff <- chipma %>%
 
 write.csv(chipmadiff, file = "chipmadiff.csv", row.names = FALSE)
 
+
+
+# pma controls cfu chi
+pmacfudata <- data.frame(
+  Live = c(173371.7, 30868.1, 400255.8),
+  Dead = c(19753.1, 232.9, 542016)
+)
+
+# Print the 
+
+print(pmacfudata)
+
+PMAcfuchitest <- chisq.test(pmacfudata)
+PMAcfuchitest
+
+#Pearson's Chi-squared test
+
+#data:  pmacfudata
+#X-squared = 172378, df = 2, p-value < 2.2e-16
