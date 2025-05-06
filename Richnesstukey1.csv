@@ -1,0 +1,4 @@
+"term","group1","group2","null.value","estimate","conf.low","conf.high","p.adj","p.adj.signif"
+"Treatment","Campylobacter Presence","Listeria Presence",0,0.666666666666668,-4.01465510083075,5.34798843416409,0.928,"ns"
+"Treatment","Campylobacter Presence","Salmonella Presence",0,5.83333333333334,1.15201156583591,10.5146551008308,0.0144,"*"
+"Treatment","Listeria Presence","Salmonella Presence",0,5.16666666666667,0.485344899169246,9.84798843416409,0.0298,"*"

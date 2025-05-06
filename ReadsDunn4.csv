@@ -1,0 +1,4 @@
+".y.","group1","group2","n1","n2","statistic","p","p.adj","p.adj.signif"
+"Reads","Campylobacter","Listeria",6,6,-3.8933141071383,9.88839817461394e-05,0.000296651945238418,"***"
+"Reads","Campylobacter","Salmonella",6,6,-1.94665705356915,0.051575863620877,0.103151727241754,"ns"
+"Reads","Listeria","Salmonella",6,6,1.94665705356915,0.051575863620877,0.103151727241754,"ns"

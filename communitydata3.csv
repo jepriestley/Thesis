@@ -1,0 +1,19 @@
+"Treatment","Lysis","Reads","Richness","Shannon","Evenness"
+"Listeria Presence","Gram-negative Lysis",59695,20,0.255934832705726,0.0854331460007597
+"Listeria Presence","Gram-negative Lysis",59092,20,0.267236435668809,0.0892057137508396
+"Listeria Presence","Gram-negative Lysis",63826,23,0.301412889141971,0.0961293079766223
+"Listeria Presence","Gram-positive Lysis",61007,23,0.698539777924167,0.22278458508244
+"Listeria Presence","Gram-positive Lysis",66380,21,0.720431466933047,0.236632010986839
+"Listeria Presence","Gram-positive Lysis",60013,23,0.785173463812778,0.250414578927904
+"Salmonella Presence","Gram-negative Lysis",74141,28,1.72510461824149,0.517706705267853
+"Salmonella Presence","Gram-negative Lysis",56707,23,1.76317763426025,0.562328460152417
+"Salmonella Presence","Gram-negative Lysis",68478,29,1.75654748317591,0.521649291260211
+"Salmonella Presence","Gram-positive Lysis",61471,25,1.4364063429095,0.446244720536343
+"Salmonella Presence","Gram-positive Lysis",62045,29,1.98101442252156,0.58831018198051
+"Salmonella Presence","Gram-positive Lysis",55437,27,1.99181518133941,0.604342770081992
+"Campylobacter Presence","Gram-negative Lysis",60764,21,0.0647319383082102,0.021261770813755
+"Campylobacter Presence","Gram-negative Lysis",61485,25,0.102938795717156,0.0319797349502821
+"Campylobacter Presence","Gram-negative Lysis",61336,13,0.050081879151899,0.019525484589475
+"Campylobacter Presence","Gram-positive Lysis",63807,20,0.0569489394103522,0.0190100229960773
+"Campylobacter Presence","Gram-positive Lysis",73667,21,0.0505415584517236,0.0166008165436667
+"Campylobacter Presence","Gram-positive Lysis",61125,26,0.0860288695816631,0.026404641046611

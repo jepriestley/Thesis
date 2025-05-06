@@ -1,0 +1,22 @@
+", ",group1,group2,n1,n2,statistic,p,p.adj,p.adj.signif
+Reads,0.1cfu,1000cfu,10,10,-1.801943954,0.071554224,0.930204911,ns
+Reads,0.1cfu,100cfu,10,10,-0.076912242,0.938693359,1,ns
+Reads,0.1cfu,10cfu,10,10,-0.692210177,0.488805348,1,ns
+Reads,0.1cfu,1cfu,10,10,-0.604310472,0.545637245,1,ns
+Reads,0.1cfu,Enumeration Spike Control,10,10,-2.922665193,0.003470495,0.0659394,ns
+Reads,0.1cfu,No Spike Control,10,10,-3.131426993,0.00173959,0.036531397,*
+Reads,1000cfu,100cfu,10,10,1.725031712,0.084521758,1,ns
+Reads,1000cfu,10cfu,10,10,1.109733776,0.267113764,1,ns
+Reads,1000cfu,1cfu,10,10,1.197633481,0.231059736,1,ns
+Reads,1000cfu,Enumeration Spike Control,10,10,-1.120721239,0.262406538,1,ns
+Reads,1000cfu,No Spike Control,10,10,-1.329483039,0.183688658,1,ns
+Reads,100cfu,10cfu,10,10,-0.615297935,0.538357981,1,ns
+Reads,100cfu,1cfu,10,10,-0.52739823,0.597917072,1,ns
+Reads,100cfu,Enumeration Spike Control,10,10,-2.845752951,0.004430655,0.079751798,ns
+Reads,100cfu,No Spike Control,10,10,-3.054514751,0.002254249,0.045084986,*
+Reads,10cfu,1cfu,10,10,0.087899705,0.929956391,1,ns
+Reads,10cfu,Enumeration Spike Control,10,10,-2.230455016,0.025717251,0.36004151,ns
+Reads,10cfu,No Spike Control,10,10,-2.439216815,0.014719134,0.235506145,ns
+Reads,1cfu,Enumeration Spike Control,10,10,-2.318354721,0.020430051,0.306450761,ns
+Reads,1cfu,No Spike Control,10,10,-2.52711652,0.011500334,0.195505679,ns
+Reads,Enumeration Spike Control,No Spike Control,10,10,-0.2087618,0.834634194,1,ns

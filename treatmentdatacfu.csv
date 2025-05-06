@@ -1,0 +1,421 @@
+"Sample_ID","Taxonomy","Frequency","Treatment","Spike","Lysis","copie_number","readcell"
+"A1","C",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"A1","A",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"A1","L",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"A1","I",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"A1","S",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"A1","T",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,0
+"B1","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"B1","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"B1","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"B1","I",2,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"B1","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"B1","T",11,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,5.5
+"C1","C",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"C1","A",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"C1","L",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"C1","I",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"C1","S",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"C1","T",7,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",2,3.5
+"D1","C",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"D1","A",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"D1","L",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"D1","I",3,"1cfu","Enumeration Spike-in","Gram-negative Lysis",3,1
+"D1","S",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"D1","T",5,"1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"E1","C",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"E1","A",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"E1","L",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"E1","I",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"E1","S",6,"10cfu","Pathogen Spike-in","Gram-negative Lysis",7,0.857142857142857
+"E1","T",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",2,0
+"F1","C",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"F1","A",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"F1","L",5,"100cfu","Pathogen Spike-in","Gram-negative Lysis",6,0.833333333333333
+"F1","I",4,"100cfu","Enumeration Spike-in","Gram-negative Lysis",3,1.33333333333333
+"F1","S",7,"100cfu","Pathogen Spike-in","Gram-negative Lysis",7,1
+"F1","T",10,"100cfu","Enumeration Spike-in","Gram-negative Lysis",2,5
+"G1","C",28,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",3,9.33333333333333
+"G1","A",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"G1","L",17,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",6,2.83333333333333
+"G1","I",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"G1","S",20,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",7,2.85714285714286
+"G1","T",8,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",2,4
+"A2","C",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"A2","A",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"A2","L",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"A2","I",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"A2","S",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"A2","T",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,0
+"B2","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"B2","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"B2","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"B2","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"B2","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"B2","T",3,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,1.5
+"C2","C",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"C2","A",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"C2","L",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"C2","I",7,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",3,2.33333333333333
+"C2","S",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"C2","T",8,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",2,4
+"D2","C",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"D2","A",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"D2","L",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"D2","I",2,"1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"D2","S",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"D2","T",4,"1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2
+"E2","C",3,"10cfu","Pathogen Spike-in","Gram-negative Lysis",3,1
+"E2","A",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"E2","L",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"E2","I",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"E2","S",9,"10cfu","Pathogen Spike-in","Gram-negative Lysis",7,1.28571428571429
+"E2","T",14,"10cfu","Enumeration Spike-in","Gram-negative Lysis",2,7
+"F2","C",3,"100cfu","Pathogen Spike-in","Gram-negative Lysis",3,1
+"F2","A",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"F2","L",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"F2","I",2,"100cfu","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"F2","S",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"F2","T",5,"100cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"G2","C",28,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",3,9.33333333333333
+"G2","A",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"G2","L",9,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",6,1.5
+"G2","I",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"G2","S",21,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",7,3
+"G2","T",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",2,0
+"A3","C",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"A3","A",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"A3","L",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"A3","I",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"A3","S",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"A3","T",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,0
+"B3","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"B3","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"B3","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"B3","I",2,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"B3","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"B3","T",10,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,5
+"C3","C",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"C3","A",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"C3","L",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"C3","I",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"C3","S",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"C3","T",5,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"D3","C",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"D3","A",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"D3","L",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"D3","I",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"D3","S",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"D3","T",4,"1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2
+"E3","C",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"E3","A",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"E3","L",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"E3","I",8,"10cfu","Enumeration Spike-in","Gram-negative Lysis",3,2.66666666666667
+"E3","S",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"E3","T",30,"10cfu","Enumeration Spike-in","Gram-negative Lysis",2,15
+"F3","C",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"F3","A",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"F3","L",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"F3","I",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"F3","S",9,"100cfu","Pathogen Spike-in","Gram-negative Lysis",7,1.28571428571429
+"F3","T",15,"100cfu","Enumeration Spike-in","Gram-negative Lysis",2,7.5
+"G3","C",33,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",3,11
+"G3","A",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"G3","L",7,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",6,1.16666666666667
+"G3","I",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"G3","S",23,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",7,3.28571428571429
+"G3","T",36,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",2,18
+"A4","C",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"A4","A",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"A4","L",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"A4","I",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"A4","S",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"A4","T",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,0
+"B4","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"B4","A",2,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0.285714285714286
+"B4","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"B4","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"B4","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"B4","T",7,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,3.5
+"C4","C",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"C4","A",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"C4","L",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"C4","I",2,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"C4","S",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"C4","T",5,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"D4","C",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"D4","A",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"D4","L",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"D4","I",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"D4","S",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"D4","T",9,"1cfu","Enumeration Spike-in","Gram-negative Lysis",2,4.5
+"E4","C",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"E4","A",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"E4","L",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"E4","I",3,"10cfu","Enumeration Spike-in","Gram-negative Lysis",3,1
+"E4","S",7,"10cfu","Pathogen Spike-in","Gram-negative Lysis",7,1
+"E4","T",6,"10cfu","Enumeration Spike-in","Gram-negative Lysis",2,3
+"F4","C",8,"100cfu","Pathogen Spike-in","Gram-negative Lysis",3,2.66666666666667
+"F4","A",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"F4","L",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"F4","I",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"F4","S",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"F4","T",6,"100cfu","Enumeration Spike-in","Gram-negative Lysis",2,3
+"G4","C",18,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",3,6
+"G4","A",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"G4","L",7,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",6,1.16666666666667
+"G4","I",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"G4","S",34,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",7,4.85714285714286
+"G4","T",10,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",2,5
+"A5","C",2,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0.666666666666667
+"A5","A",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"A5","L",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"A5","I",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"A5","S",0,"No Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"A5","T",0,"No Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,0
+"B5","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",3,0
+"B5","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",7,0
+"B5","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",6,0
+"B5","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",3,0
+"B5","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-negative Lysis",7,0
+"B5","T",3,"Enumeration Spike Control","Enumeration Spike-in","Gram-negative Lysis",2,1.5
+"C5","C",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"C5","A",0,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"C5","L",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"C5","I",2,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"C5","S",0,"0.1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"C5","T",5,"0.1cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"D5","C",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"D5","A",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"D5","L",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"D5","I",0,"1cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"D5","S",0,"1cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"D5","T",8,"1cfu","Enumeration Spike-in","Gram-negative Lysis",2,4
+"E5","C",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"E5","A",0,"10cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"E5","L",0,"10cfu","Pathogen Spike-in","Gram-negative Lysis",6,0
+"E5","I",2,"10cfu","Enumeration Spike-in","Gram-negative Lysis",3,0.666666666666667
+"E5","S",8,"10cfu","Pathogen Spike-in","Gram-negative Lysis",7,1.14285714285714
+"E5","T",14,"10cfu","Enumeration Spike-in","Gram-negative Lysis",2,7
+"F5","C",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",3,0
+"F5","A",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"F5","L",3,"100cfu","Pathogen Spike-in","Gram-negative Lysis",6,0.5
+"F5","I",0,"100cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"F5","S",0,"100cfu","Pathogen Spike-in","Gram-negative Lysis",7,0
+"F5","T",5,"100cfu","Enumeration Spike-in","Gram-negative Lysis",2,2.5
+"G5","C",27,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",3,9
+"G5","A",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",7,0
+"G5","L",9,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",6,1.5
+"G5","I",0,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",3,0
+"G5","S",18,"1000cfu","Pathogen Spike-in","Gram-negative Lysis",7,2.57142857142857
+"G5","T",6,"1000cfu","Enumeration Spike-in","Gram-negative Lysis",2,3
+"A6","C",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"A6","A",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"A6","L",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"A6","I",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"A6","S",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"A6","T",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"B6","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"B6","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"B6","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"B6","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"B6","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"B6","T",8,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,4
+"C6","C",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"C6","A",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"C6","L",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"C6","I",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"C6","S",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"C6","T",10,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",2,5
+"D6","C",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"D6","A",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"D6","L",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"D6","I",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"D6","S",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"D6","T",6,"1cfu","Enumeration Spike-in","Gram-positive Lysis",2,3
+"E6","C",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"E6","A",7,"10cfu","Enumeration Spike-in","Gram-positive Lysis",7,1
+"E6","L",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"E6","I",2,"10cfu","Enumeration Spike-in","Gram-positive Lysis",3,0.666666666666667
+"E6","S",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"E6","T",6,"10cfu","Enumeration Spike-in","Gram-positive Lysis",2,3
+"F6","C",2,"100cfu","Pathogen Spike-in","Gram-positive Lysis",3,0.666666666666667
+"F6","A",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"F6","L",8,"100cfu","Pathogen Spike-in","Gram-positive Lysis",6,1.33333333333333
+"F6","I",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"F6","S",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"F6","T",7,"100cfu","Enumeration Spike-in","Gram-positive Lysis",2,3.5
+"G6","C",4,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",3,1.33333333333333
+"G6","A",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"G6","L",44,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",6,7.33333333333333
+"G6","I",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"G6","S",50,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",7,7.14285714285714
+"G6","T",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",2,0
+"A7","C",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"A7","A",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"A7","L",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"A7","I",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"A7","S",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"A7","T",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"B7","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"B7","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"B7","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"B7","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"B7","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"B7","T",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"C7","C",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"C7","A",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"C7","L",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"C7","I",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"C7","S",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"C7","T",6,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",2,3
+"D7","C",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"D7","A",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"D7","L",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"D7","I",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"D7","S",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"D7","T",4,"1cfu","Enumeration Spike-in","Gram-positive Lysis",2,2
+"E7","C",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"E7","A",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"E7","L",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"E7","I",2,"10cfu","Enumeration Spike-in","Gram-positive Lysis",3,0.666666666666667
+"E7","S",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"E7","T",15,"10cfu","Enumeration Spike-in","Gram-positive Lysis",2,7.5
+"F7","C",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"F7","A",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"F7","L",6,"100cfu","Pathogen Spike-in","Gram-positive Lysis",6,1
+"F7","I",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"F7","S",3,"100cfu","Pathogen Spike-in","Gram-positive Lysis",7,0.428571428571429
+"F7","T",7,"100cfu","Enumeration Spike-in","Gram-positive Lysis",2,3.5
+"G7","C",8,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",3,2.66666666666667
+"G7","A",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"G7","L",49,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",6,8.16666666666667
+"G7","I",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"G7","S",48,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",7,6.85714285714286
+"G7","T",5,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",2,2.5
+"A8","C",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"A8","A",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"A8","L",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"A8","I",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"A8","S",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"A8","T",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"B8","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"B8","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"B8","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"B8","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"B8","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"B8","T",3,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,1.5
+"C8","C",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"C8","A",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"C8","L",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"C8","I",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"C8","S",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"C8","T",10,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",2,5
+"D8","C",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"D8","A",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"D8","L",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"D8","I",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"D8","S",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"D8","T",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",2,0
+"E8","C",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"E8","A",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"E8","L",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"E8","I",5,"10cfu","Enumeration Spike-in","Gram-positive Lysis",3,1.66666666666667
+"E8","S",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"E8","T",2,"10cfu","Enumeration Spike-in","Gram-positive Lysis",2,1
+"F8","C",2,"100cfu","Pathogen Spike-in","Gram-positive Lysis",3,0.666666666666667
+"F8","A",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"F8","L",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"F8","I",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"F8","S",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"F8","T",5,"100cfu","Enumeration Spike-in","Gram-positive Lysis",2,2.5
+"G8","C",8,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",3,2.66666666666667
+"G8","A",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"G8","L",53,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",6,8.83333333333333
+"G8","I",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"G8","S",57,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",7,8.14285714285714
+"G8","T",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",2,0
+"A9","C",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"A9","A",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"A9","L",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"A9","I",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"A9","S",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"A9","T",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"B9","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"B9","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"B9","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"B9","I",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"B9","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"B9","T",5,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,2.5
+"C9","C",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"C9","A",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"C9","L",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"C9","I",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"C9","S",7,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",7,1
+"C9","T",16,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",2,8
+"D9","C",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"D9","A",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"D9","L",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"D9","I",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"D9","S",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"D9","T",9,"1cfu","Enumeration Spike-in","Gram-positive Lysis",2,4.5
+"E9","C",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"E9","A",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"E9","L",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"E9","I",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"E9","S",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"E9","T",12,"10cfu","Enumeration Spike-in","Gram-positive Lysis",2,6
+"F9","C",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"F9","A",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"F9","L",11,"100cfu","Pathogen Spike-in","Gram-positive Lysis",6,1.83333333333333
+"F9","I",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"F9","S",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"F9","T",16,"100cfu","Enumeration Spike-in","Gram-positive Lysis",2,8
+"G9","C",6,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",3,2
+"G9","A",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"G9","L",50,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",6,8.33333333333333
+"G9","I",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"G9","S",34,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",7,4.85714285714286
+"G9","T",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",2,0
+"A10","C",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"A10","A",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"A10","L",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"A10","I",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,0
+"A10","S",0,"No Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"A10","T",0,"No Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,0
+"B10","C",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",3,0
+"B10","A",0,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",7,0
+"B10","L",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",6,0
+"B10","I",3,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",3,1
+"B10","S",0,"Enumeration Spike Control","Pathogen Spike-in","Gram-positive Lysis",7,0
+"B10","T",4,"Enumeration Spike Control","Enumeration Spike-in","Gram-positive Lysis",2,2
+"C10","C",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"C10","A",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"C10","L",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"C10","I",0,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"C10","S",0,"0.1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"C10","T",12,"0.1cfu","Enumeration Spike-in","Gram-positive Lysis",2,6
+"D10","C",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"D10","A",0,"1cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"D10","L",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"D10","I",2,"1cfu","Enumeration Spike-in","Gram-positive Lysis",3,0.666666666666667
+"D10","S",0,"1cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"D10","T",6,"1cfu","Enumeration Spike-in","Gram-positive Lysis",2,3
+"E10","C",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"E10","A",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"E10","L",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",6,0
+"E10","I",0,"10cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"E10","S",0,"10cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"E10","T",9,"10cfu","Enumeration Spike-in","Gram-positive Lysis",2,4.5
+"F10","C",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",3,0
+"F10","A",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"F10","L",5,"100cfu","Pathogen Spike-in","Gram-positive Lysis",6,0.833333333333333
+"F10","I",0,"100cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"F10","S",0,"100cfu","Pathogen Spike-in","Gram-positive Lysis",7,0
+"F10","T",5,"100cfu","Enumeration Spike-in","Gram-positive Lysis",2,2.5
+"G10","C",13,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",3,4.33333333333333
+"G10","A",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",7,0
+"G10","L",31,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",6,5.16666666666667
+"G10","I",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",3,0
+"G10","S",30,"1000cfu","Pathogen Spike-in","Gram-positive Lysis",7,4.28571428571429
+"G10","T",0,"1000cfu","Enumeration Spike-in","Gram-positive Lysis",2,0
