@@ -483,4 +483,3 @@ final_plot_2 <- plot_grid(
 
 final_plot_2
 ggsave("final_plot_2.png", plot = final_plot_2, width = 10, height = 6, dpi = 300)
-
