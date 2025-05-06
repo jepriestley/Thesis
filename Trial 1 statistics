@@ -1,0 +1,68 @@
+
+#Load in Packages
+library(grid)
+library(cowplot)
+library(gridExtra)
+library(patchwork)
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+library(rstatix)
+library(ggsci)
+library(lemon)
+
+
+observed_table_cfu <- matrix(c(0.1, 1250, 0.7, 1837, 0.7, 3333, 0.7, 1633, 0.9, 1429, 117.0, 1667, 117.0, 2000, 117.0, 3810, 117.0, 2857, 117.0, 3333, 66.7, 2000, 66.7, 1714, 66.7, 1224, 93.3, 4000, 93.3, 8889, 93.3, 1905, 93.3, 2667, 93.3, 4583, 1117.0, 7083, 1117.0, 648, 1117.0, 2333, 1117.0, 5000, 1117.0, 32667, 666.7, 7143, 666.7, 1825, 666.7, 9714, 666.7, 8571, 666.7, 27429, 933.3, 23333, 933.3, 6111, 933.3, 12000, 933.3, 30000, 933.3, 10667), nrow = 33, ncol = 2, byrow = T)
+rownames(observed_table_cfu) <- c('S. nottingham1','S. nottingham2', 'S. nottingham3', 'S. nottingham4', 'C. jejuni1', 'L. monocytogenes1','L. monocytogenes2', 'L. monocytogenes3', 'L. monocytogenes4', 'L. monocytogenes5', 'S. nottingham5', 'S. nottingham6', 'S. nottingham7', 'C. jejuni2', 'C. jejuni3', 'C. jejuni4', 'C. jejuni5', 'C. jejuni6','L. monocytogenes6','L. monocytogenes7','L. monocytogenes8','L. monocytogenes9','L. monocytogenes10', 'S. nottingham8', 'S. nottingham9', 'S. nottingham10', 'S. nottingham11', 'S. nottingham12', 'C. jejuni7', 'C. jejuni8', 'C. jejuni9', 'C. jejuni10', 'C. jejuni11' )
+colnames(observed_table_cfu) <- c('Expected CFU', 'Calculated CFU')
+observed_table_cfu
+
+X <- chisq.test(observed_table_cfu)
+X
+
+
+#Pearson's Chi-squared test
+
+#data:  observed_table_cfu
+#X-squared = 23202, df = 32, p-value < 2.2e-16
+
+
+percent_table <- read.csv("ESsamples.csv", row.names = 1)
+print(percent_table)
+
+
+# Show the cleaned data
+print(percent_table)
+
+chi_result <-chisq.test(percent_table)
+print(chi_result)
+
+observed_percent <- matrix(c(90, 91, 90, 92, 90, 92, 90, 87, 90, 95, 90, 100, 9, 8, 9, 8, 9, 8, 9, 12, 9, 5, 9, 0, 0.9, 1, 0.9, 0, 0.9, 0, 0.9, 2, 0.9, 0, 0.9, 0), nrow = 18, ncol = 2, byrow = T)
+rownames(observed_percent) <- c("T1","T2","T3","T4","T5","T6", "I1","I2","I3","I4","I5","I6", "A1","A2","A3","A4","A5","A6")
+colnames(observed_percent) <- c('Expected percentage', 'Observed percentage')
+observed_percent
+
+percentageX <- chisq.test(observed_percent)
+percentageX
+
+# Create the data frame
+bacteria_data <- data.frame(
+  Bacteria = c("C1", "L1", "S1", "C2", "L2", "S2"),
+  Expected = c(0.06, 0.05, 0.05, 0.57, 0.46, 0.48), # Example expected values
+  Observed = c(0.1, 0, 0.4, 0.6, 0.6, 0.2)  # Example observed values
+)
+
+# Perform chi-squared test
+chi_result <- chisq.test(bacteria_data[, c("Expected", "Observed")])
+
+# Print the results
+print(chi_result)
