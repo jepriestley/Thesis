@@ -1,0 +1,564 @@
+
+
+#Load in Packages
+library(grid)
+library(cowplot)
+library(gridExtra)
+library(patchwork)
+library(tidyr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+library(stringr)
+library(ggthemes)
+library(ggrepel)
+library(scales)
+library(ggpattern)
+library(lemon)
+library(RColorBrewer)
+library(rstatix)
+library(ggsci)
+library(lemon)
+
+#Load in dataset
+
+Trial1data <- read_csv("Trial 1 Spikes only.csv")
+
+#Use pivot longer to create a "taxonomy" column and combine all the spike-ins into one column - to felicitate downstream analysis
+
+Trial1data <- pivot_longer(Trial1data, 2:7, names_to = "Taxonomy", values_to = "Frequency")
+
+#Now Rename Samples based on treatment in order to group then into 'nests'
+
+Treatmentdata <- Trial1data %>%
+  mutate(Treatment = case_when (
+    grepl("^A", Sample_ID) ~ "No Spike Control",
+    grepl("^B", Sample_ID) ~ "Enumeration Spike Control",
+    grepl("^C", Sample_ID) ~ "0.1cfu",
+    grepl("^D", Sample_ID) ~ "1cfu",
+    grepl("^E", Sample_ID) ~ "10cfu",
+    grepl("^F", Sample_ID) ~ "100cfu",
+    grepl("^G", Sample_ID) ~ "1000cfu",
+    TRUE ~ "Other"
+  ))
+
+#rename spike-in
+Treatmentdata <- Treatmentdata %>%
+  mutate(Taxonomy = recode(Taxonomy,
+                           "d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Flavobacteriales;f__Flavobacteriaceae;g__Imtechella;s__Imtechella_halotolerans" = "I",
+                           "d__Bacteria;p__Campylobacterota;c__Campylobacteria;o__Campylobacterales;f__Campylobacteraceae;g__Campylobacter;__" = "C",
+                           "d__Bacteria;p__Deinococcota;c__Deinococci;o__Deinococcales;f__Trueperaceae;g__Truepera;s__Truepera_radiovictrix" = "T",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Bacillales;f__Bacillaceae;g__Allobacillus;s__Allobacillus_halotolerans" = "A",
+                           "d__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Listeriaceae;g__Listeria;s__Listeria_monocytogenes" = "L",
+                           "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Salmonella;s__Salmonella_enterica" = "S"))
+
+#reorder treatment and taxonomy
+Treatmentdata$Treatment <- factor(Treatmentdata$Treatment, levels = c("No Spike Control", "Enumeration Spike Control", "0.1cfu", "1cfu", "10cfu", "100cfu", "1000cfu"))
+
+Treatmentdata$Taxonomy <- factor(Treatmentdata$Taxonomy, levels = c("C","L", "S", "T", "I", "A"))
+
+Treatmentdata$Spike <- factor(ifelse(Treatmentdata$Taxonomy %in% c("C", "L", "S"), "Pathogen Spike-in", "Enumeration Spike-in"))
+
+#Create Lysis method 'factor' column
+Treatmentdata$Lysis <- factor(ifelse(grepl("6|7|8|9|10", Treatmentdata$Sample_ID), "Gram-positive Lysis", "Gram-negative Lysis"))
+
+
+# Filter the data to include only samples with taxonomy "T" and frequency greater than 0
+t_samples <- subset(Treatmentdata, Taxonomy == "T" & Frequency > 0)
+
+# Count the number of samples
+t_sample_count <- nrow(t_samples)
+
+# Print the count
+cat("Number of samples containing taxonomy 'T' at a frequency greater than 0:", t_sample_count, "\n")
+
+# Filter the data to include only samples with taxonomy "I" and frequency greater than 0
+i_samples <- subset(Treatmentdata, Taxonomy == "I" & Frequency > 0)
+
+# Count the number of samples
+i_sample_count <- nrow(i_samples)
+
+# Print the count
+cat("Number of samples containing taxonomy 'I' at a frequency greater than 0:", i_sample_count, "\n")
+
+# Filter the data to include only samples with taxonomy "A" and frequency greater than 0
+a_samples <- subset(Treatmentdata, Taxonomy == "A" & Frequency > 0)
+
+# Count the number of samples
+a_sample_count <- nrow(a_samples)
+
+# Print the count
+cat("Number of samples containing taxonomy 'A' at a frequency greater than 0:", a_sample_count, "\n")
+
+
+# Add the 16s copie number to the Treatmentdata dataset based on the Taxonomy column
+Treatmentdata <- Treatmentdata %>%
+  mutate(copie_number = case_when(
+    Taxonomy == "T" ~ 2,
+    Taxonomy == "A" ~ 7,
+    Taxonomy == "I" ~ 3,
+    Taxonomy == "S" ~ 7,
+    Taxonomy == "L" ~ 6,
+    Taxonomy == "C" ~ 3,
+    TRUE ~ NA_real_
+  ))
+
+# Create a new dataset with the readcell calculation and set to 0 decimal places
+Treatmentdata <- Treatmentdata %>%
+  mutate(readcell = Frequency / copie_number)
+
+# Print the new dataset
+print(Treatmentdata)
+
+write.csv(Treatmentdata, file = "treatmentdatacfu.csv", row.names = FALSE)
+#Group data by treatment and create an average frequency of each taxonomy
+
+Treatmentdata <- Treatmentdata %>%
+  group_by(Taxonomy) %>%
+  mutate(readcell = Frequency / copie_number)
+
+print(Treatmentdata)
+
+Treatmentdata <- Treatmentdata %>%
+  mutate(readcell = round(Frequency / copie_number, 1))
+
+# Print the new dataset
+print(Treatmentdata)
+
+
+Treatmentdataaveragecopie <- Treatmentdata %>%
+  group_by(Treatment, Taxonomy, Spike) %>%
+  summarise(Avg = mean(readcell))
+
+TreatmentdataaveragecopieESsamples <- subset(Treatmentdataaveragecopie, Taxonomy == "T" | Taxonomy == "I" | Taxonomy == "A")
+
+sumreadsdata <- TreatmentdataaveragecopieESsamples %>%
+  group_by(Treatment) %>%
+  mutate(sumreads = sum(Avg))
+
+percentagedata <- sumreadsdata %>%
+  group_by(Treatment) %>%
+  mutate(percentage = round((Avg/sumreads)*100, 0))
+  
+Treatmentdata <- Treatmentdata %>%
+  group_by(Treatment) %>%
+  mutate(percentage = Frequency / copie_number)
+
+
+# Add the preportion copie number to the Treatmentdata dataset for each bacteria 
+Treatmentdata <- Treatmentdata %>%
+  mutate(proportion_data = case_when(
+    Taxonomy == "T" ~ 1,
+    Taxonomy == "A" ~ 100,
+    Taxonomy == "I" ~ 10,
+    Taxonomy == "S" ~ 1,
+    Taxonomy == "L" ~ 1,
+    Taxonomy == "C" ~ 1,
+    TRUE ~ NA_real_
+  ))
+
+#Multiply readcell by proportion
+Treatmentdata <- Treatmentdata %>%
+  mutate(expected = readcell * proportion_data)
+
+print(Treatmentdata)
+
+# Filter the data to include only samples with taxonomy "T, I, A"
+ESsamples <- subset(Treatmentdata, Taxonomy == "T" | Taxonomy == "I" | Taxonomy == "A")
+
+write.csv(ESsamples, file = "ESsamples.csv", row.names = FALSE)
+
+ESsamplesaveragecopie <- ESsamples %>%
+  group_by(Treatment, Taxonomy, Spike) %>%
+  summarise(Avg = mean(expected))
+
+Sd_results <- ESsamples %>%
+  group_by(Sample_ID) %>%
+  summarise(sd_expected = sd(expected))
+
+Sd_resultsavg <- ESsamplesaveragecopie %>%
+group_by(Treatment) %>%
+  summarise(sd_expected = sd(Avg))
+
+  
+  #plot
+PlotsbyTreatmentwrapcopie <- ggplot(Treatmentdataaveragecopie, aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.07, pattern_spacing = 0.03, pattern_key_scale_factor = 0.6) +
+  geom_text(aes(label = Avg),
+            data = Treatmentdataaveragecopie %>% filter(Avg > 0),
+            vjust = 0.5, size = 3, color = "black", nudge_y = 1) +
+  facet_wrap(.~Treatment, nrow = 4) +
+  labs(x = "Bacteria", y = "Average number of reads", pattern = "Spike-in Standard") +
+  scale_fill_npg(labels = c( "C" = expression(italic("Campylobacter")), "L" = expression(italic("Listeria monocytogenes")),"S" = expression(italic("Salmonella enterica")), "T" = expression(italic("Truepera radiovictrix")), "I" = expression(italic("Imtechella halotolerans")), "A" = expression(italic("Allobacillus halotolerans")))) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(legend.key.size = unit(0.5, "cm"), axis.title = element_blank(), strip.text = element_text(colour = "black"), strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5), axis.text.x = element_blank(), axis.ticks = element_blank(),
+        legend.background = element_blank())
+
+theme_set(theme_classic())
+FinalPlotcopie <- reposition_legend(PlotsbyTreatmentwrapcopie, 'center', panel =c('panel-2-4'))
+ggsave("Finalplotcopy.png", FinalPlotcopie, width = 10, height = 13, units = "in", dpi = 600)
+
+
+#mean and sd
+summary_statistics <- Treatmentdata %>%
+  group_by(Treatment, Taxonomy) %>%
+  summarise(
+    Mean = mean(Frequency),
+    SD = sd(Frequency)
+  )
+
+print(summary_statistics)
+
+#Download data set as csv
+write.csv(summary_statistics, file = "summary_statistics.csv", row.names = FALSE)
+
+shapiro_test(Treatmentdata, Frequency)
+# p = 7.04e-34 - no 
+
+shapiro_test(rank(Treatmentdata$Frequency))
+# p = 2.43e-29 - no 
+
+
+#Conduct the Kruskal Wallis test
+kruskal_test(data = Treatmentdata, Frequency ~ Treatment)
+#p = 8.06e-14 - yes
+kruskal_test(data = Treatmentdata, Frequency ~ Lysis)
+# p = 0.151 - no
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = Treatmentdata, Frequency ~ Treatment)
+# effsize = 16% - large
+
+# If the K-W tests report a significant difference, and there are more then 2 groups, you can test which groups differ from which with a post-hoc Dunn test
+Frequencydunn <- dunn_test(data = Treatmentdata, Frequency ~ Treatment)
+
+
+#Download data set as csv
+write.csv(Frequencydunn, file = "Frequencydunn.csv", row.names = FALSE)
+
+#subset data
+enum_data <- subset(Treatmentdata, Spike == "Enumeration Spike-in" & !(Treatment %in% c("No Spike Control", "1cfu", "10cfu", "100cfu", "1000cfu")))
+path_data <- subset(Treatmentdata, Spike == "Pathogen Spike-in")
+
+#conduct shapiro_test
+shapiro_test(enum_data, Frequency)
+# p = 1.55e-22 - no 
+shapiro_test(path_data, Frequency)
+# p = 5.76e-25 - no 
+
+#rank
+shapiro_test(rank(enum_data$Frequency))
+# p = 5.24e-20 - no
+shapiro_test(rank(path_data$Frequency))
+# p = 1.23e-22 - no
+
+#Conduct the Kruskal Wallis test
+kruskal_test(data = enum_data, Frequency ~ Treatment)
+#p = 0.000253 - yes
+kruskal_test(data = path_data, Frequency ~ Treatment)
+# p = 6.37e-30 - yes
+
+#If the p value reports there is a significant difference - determine 'size' of effect
+kruskal_effsize(data = enum_data, Frequency ~ Treatment)
+# effsize = 10% - moderate
+kruskal_effsize(data = path_data, Frequency ~ Treatment)
+# effsize = 71% - large
+
+# If the K-W tests report a significant difference, and there are more then 2 groups, you can test which groups differ from which with a post-hoc Dunn test
+enuFrequencydunn <- dunn_test(data = enum_data, Frequency ~ Treatment)
+pathFrequencydunn <- dunn_test(data = path_data, Frequency ~ Treatment)
+
+#Download data set as csv
+write.csv(enuFrequencydunn, file = "enuFrequencydunn.csv", row.names = FALSE)
+write.csv(pathFrequencydunn, file = "pathFrequencydunn.csv", row.names = FALSE)
+
+#Group data by treatment and create an average frequency of each taxonomy
+
+Treatmentdataaverage <- Treatmentdata %>%
+  group_by(Treatment, Taxonomy, Spike) %>%
+  summarise(Avg = mean(Frequency))
+
+
+
+plot1 <- Treatmentdataaverage %>% 
+  filter(Treatment == "No Spike Control") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: No Spike Control") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot1 <- reposition_legend(plot1, 'top right')
+
+# Save the plot with higher resolution
+ggsave("No Spike Control.png", plot1, dpi = 2000, width = 15, height = 6)
+
+
+# Plot 2: Enumeration Spike Control
+plot2 <- Treatmentdataaverage %>% 
+  filter(Treatment == "Enumeration Spike Control") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: Enumeration Spike Control") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot2 <- reposition_legend(plot2, 'top right')
+ggsave("Enumeration Spike Control.png", plot2, dpi = 1200, width = 15, height = 6)
+
+# Plot 3: 0.1cfu
+plot3 <- Treatmentdataaverage %>% 
+  filter(Treatment == "0.1cfu") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: 0.1cfu") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot3 <- reposition_legend(plot3, 'top right')
+ggsave("0.1cfu.png", plot3, dpi = 1200, width = 15, height = 6)
+
+# Plot 4: 1cfu
+plot4 <- Treatmentdataaverage %>% 
+  filter(Treatment == "1cfu") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: 1cfu") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot4 <- reposition_legend(plot4, 'top right')
+ggsave("1cfu.png", plot4, dpi = 1200, width = 15, height = 6)
+
+# Plot 5: 10cfu
+plot5 <- Treatmentdataaverage %>% 
+  filter(Treatment == "10cfu") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: 10cfu") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot5 <- reposition_legend(plot5, 'top right')
+ggsave("10cfu.png", plot5, dpi = 1200, width = 15, height = 6)
+
+# Plot 6: 100cfu
+plot6 <- Treatmentdataaverage %>% 
+  filter(Treatment == "100cfu") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: 100cfu") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot6 <- reposition_legend(plot6, 'top right')
+ggsave("100cfu.png", plot6, dpi = 1200, width = 15, height = 6)
+
+# Plot 7: 1000cfu
+plot7 <- Treatmentdataaverage %>% 
+  filter(Treatment == "1000cfu") %>%
+  ggplot(aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_bar(stat = "identity") +
+  xlab("Spike-in") +
+  ylab("Average number of reads") +
+  ggtitle("Average Number of reads: 1000cfu") +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_fill_npg() +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1), labels = c("C" = "Campylobacter", "L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(
+    axis.text.x = element_text(face = "italic", size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 18, face = "bold"),
+    legend.position = "inside",
+    legend.background = element_blank(),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.key.size = unit(1.5, "lines")
+  )
+
+plot7 <- reposition_legend(plot7, 'top right')
+ggsave("1000cfu.png", plot7, dpi = 1200, width = 15, height = 6)
+
+PlotsbyTreatmentwrap <- ggplot(Treatmentdataaverage, aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.07, pattern_spacing = 0.03, pattern_key_scale_factor = 0.6) +
+  geom_text(aes(label = Avg),
+            data = Treatmentdataaverage %>% filter(Avg > 0),
+            vjust = 0.5, size = 3, color = "black", nudge_y = 2) +
+  facet_wrap(.~Treatment, nrow = 4) +
+  labs(x = "Bacteria", y = "Average number of reads", pattern = "Spike-in Standard") +
+  scale_fill_npg(labels = c( "C" = expression(italic("Campylobacter")), "L" = expression(italic("Listeria monocytogenes")),"S" = expression(italic("Salmonella enterica")), "T" = expression(italic("Truepera radiovictrix")), "I" = expression(italic("Imtechella halotolerans")), "A" = expression(italic("Allobacillus halotolerans")))) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(legend.key.size = unit(0.5, "cm"), axis.title = element_blank(), strip.text = element_text(colour = "black"), strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5), axis.text.x = element_blank(), axis.ticks = element_blank(),
+        legend.background = element_blank())
+
+FinalPlot <- reposition_legend(PlotsbyTreatmentwrap, 'center', panel =c('panel-2-4'))
+
+#Combined plots showing Bacteria on the X axis - grid 
+PlotsbyTreatmentgrid<- ggplot(Finaldata, aes(x = Taxonomy, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(width = 0.7, colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.01, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  geom_text(aes(label = Avg),
+            data = Finaldata %>% filter(Avg > 0),
+            vjust = 1, size = 3, color = "black", nudge_y = 2) +
+  facet_grid(.~Treatment) +
+  labs(x = "Bacteria", y = "Number of ASV reads (Average)", pattern = "Spike-in Standard") +
+  scale_fill_npg(labels = c( "C" = "Campylobacter","L" = "Listeria monocytogenes","S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme(strip.background = element_rect(color = "grey90", fill = "white", linewidth = 0.5), plot.background = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "grey90"),  
+        panel.grid.major = element_line(color = "grey90", linewidth = 0.1),
+        axis.text.x = element_blank(), axis.ticks = element_blank())
+PlotsbyTreatmentgrid
+
+#Combined plots with treatment on the X axis - wrap
+
+PlotsbySpike <- ggplot(Finaldata, aes(x = Treatment, y = Avg, fill = Treatment)) +
+  geom_col() +
+  geom_text(aes(label = Avg),
+                        data = Finaldata %>% filter(Avg > 0),
+                        vjust = 1, size = 3, color = "black", nudge_y = 3) +
+  facet_wrap(.~Taxonomy, labeller = as_labeller(c( "C" = "Campylobacter","L" = "Listeria monocytogenes", "S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans"))) +
+  labs(x = "Treatment", y = "Number of ASV reads (Average)") +
+  scale_x_discrete(labels = c("(-/-)","(-/+)", "0.1", "1", "10", "100", "1000")) +
+  scale_fill_npg() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key.size = unit(0.5, "cm"),
+        legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+
+FinalPlotspike <- reposition_legend(PlotsbySpike, 'top left', panel =c('panel-3-2'))
+
+ggsave("Finalplotgrid.png", PlotsbyTreatmentgrid, width = 16, height = 7, units = "in", dpi = 600 )
+ggsave("Finalplot.png", FinalPlot, width = 10, height = 13, units = "in", dpi = 600)
+ggsave("Spikeplot.png", FinalPlotspike, widt = 10, height = 13, units = "in", dpi = 600)
+
+
+PlotsbyTreatment2 <- filter(lysisdata == "1000cfu") %>%
+  ggplot(Finaldata, aes(x = Treatment, y = Avg, fill = Taxonomy, pattern = Spike)) +
+  geom_col_pattern(width = 0.7, colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6, position = "stack") +
+  labs(x = "Treatment", y = "Number of ASV reads (Average)", pattern = "Spike-in Standard") +
+  scale_x_discrete(labels = c("(-/-)","(-/+)", "0.1", "1", "10", "100", "1000")) +
+  scale_fill_npg(labels = c( "C" = "Campylobacter","L" = "Listeria monocytogenes","S" = "Salmonella", "T" = "Truepera radiovictrix", "I" = "Imtechella halotolerans", "A" = "Allobacillus halotolerans")) +
+  scale_pattern_manual(values = c("Enumeration Spike-in" = "stripe", "Pathogen Spike-in" = "none")) +
+  guides(fill = guide_legend(title = "Bacteria", override.aes = list(pattern = "none")), pattern = guide_legend(title = "Spike-in Standard", override.aes = list(fill = "white"))) +
+  theme_light()
+PlotsbyTreatment2
+ggsave("plot2.png", PlotsbyTreatment2, width = 15, height = 8, unit = "in", dpi = 600)
+
+install.packages("ggsci")
+library(ggsci)
