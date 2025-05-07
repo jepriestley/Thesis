@@ -1,0 +1,182 @@
+sample-id	pathogen_added	spike	dna_extraction
+#q2:types	categorical	categorical	categorical
+			
+A1	0	no	Gram Negative
+			
+B1	0	no	Gram Negative
+			
+C1	0	no	Gram Negative
+			
+D1	0	no	Gram Negative
+			
+E1	0	no	Gram Negative
+			
+F1	0	no	Gram Positive
+			
+G1	0	no	Gram Positive
+			
+H1	0	no	Gram Positive
+			
+I1	0	no	Gram Positive
+			
+J1	0	no	Gram Positive
+			
+A2	0	no	Gram Negative
+			
+B2	0	no	Gram Negative
+			
+C2	0	no	Gram Negative
+			
+D2	0	no	Gram Negative
+			
+E2	0	no	Gram Negative
+			
+F2	0	no	Gram Positive
+			
+G2	0	no	Gram Positive
+			
+H2	0	no	Gram Positive
+			
+I2	0	no	Gram Positive
+			
+J2	0	no	Gram Positive
+			
+A3	0.1 CFU/ml	yes	Gram Negative
+			
+B3	0.1 CFU/ml	yes	Gram Negative
+			
+C3	0.1 CFU/ml	yes	Gram Negative
+			
+D3	0.1 CFU/ml	yes	Gram Negative
+			
+E3	0.1 CFU/ml	yes	Gram Negative
+			
+F3	0.1 CFU/ml	yes	Gram Positive
+			
+G3	0.1 CFU/ml	yes	Gram Positive
+			
+H3	0.1 CFU/ml	yes	Gram Positive
+			
+I3	0.1 CFU/ml	yes	Gram Positive
+			
+J3	0.1 CFU/ml	yes	Gram Positive
+			
+A4	1 CFU/ml	yes	Gram Negative
+			
+B4	1 CFU/ml	yes	Gram Negative
+			
+C4	1 CFU/ml	yes	Gram Negative
+			
+D4	1 CFU/ml	yes	Gram Negative
+			
+E4	1 CFU/ml	yes	Gram Negative
+			
+F4	1 CFU/ml	yes	Gram Positive
+			
+G4	1 CFU/ml	yes	Gram Positive
+			
+H4	1 CFU/ml	yes	Gram Positive
+			
+I4	1 CFU/ml	yes	Gram Positive
+			
+J4	1 CFU/ml	yes	Gram Positive
+			
+A5	10 CFU/ml	yes	Gram Negative
+			
+B5	10 CFU/ml	yes	Gram Negative
+			
+C5	10 CFU/ml	yes	Gram Negative
+			
+D5	10 CFU/ml	yes	Gram Negative
+			
+E5	10 CFU/ml	yes	Gram Negative
+			
+F5	10 CFU/ml	yes	Gram Positive
+			
+G5	10 CFU/ml	yes	Gram Positive
+			
+H5	10 CFU/ml	yes	Gram Positive
+			
+I5	10 CFU/ml	yes	Gram Positive
+			
+J5	10 CFU/ml	yes	Gram Positive
+			
+A6	100 CFU/ml	yes	Gram Negative
+			
+B6	100 CFU/ml	yes	Gram Negative
+			
+C6	100 CFU/ml	yes	Gram Negative
+			
+D6	100 CFU/ml	yes	Gram Negative
+			
+E6	100 CFU/ml	yes	Gram Negative
+			
+F6	100 CFU/ml	yes	Gram Positive
+			
+G6	100 CFU/ml	yes	Gram Positive
+			
+H6	100 CFU/ml	yes	Gram Positive
+			
+I6	100 CFU/ml	yes	Gram Positive
+			
+J6	100 CFU/ml	yes	Gram Positive
+			
+A7	1000 CFU/ml	yes	Gram Negative
+			
+B7	1000 CFU/ml	yes	Gram Negative
+			
+C7	1000 CFU/ml	yes	Gram Negative
+			
+D7	1000 CFU/ml	yes	Gram Negative
+			
+E7	1000 CFU/ml	yes	Gram Negative
+			
+F7	1000 CFU/ml	yes	Gram Positive
+			
+G7	1000 CFU/ml	yes	Gram Positive
+			
+H7	1000 CFU/ml	yes	Gram Positive
+			
+I7	1000 CFU/ml	yes	Gram Positive
+			
+J7	1000 CFU/ml	yes	Gram Positive
+			
+X1	0	no	Gram Negative
+			
+X2	0	no	Gram Positive
+			
+L1	0	no	Gram Negative
+			
+L2	0	no	Gram Negative
+			
+L3	0	no	Gram Negative
+			
+L4	0	no	Gram Positive
+			
+L5	0	no	Gram Positive
+			
+L6	0	no	Gram Positive
+			
+Z1	0	no	Gram Negative
+			
+Z2	0	no	Gram Negative
+			
+Z3	0	no	Gram Negative
+			
+Z4	0	no	Gram Positive
+			
+Z5	0	no	Gram Positive
+			
+Z6	0	no	Gram Positive
+			
+S1	0	no	Gram Negative
+			
+S2	0	no	Gram Negative
+			
+S3	0	no	Gram Negative
+			
+S4	0	no	Gram Positive
+			
+S5	0	no	Gram Positive
+			
+S6	0	no	Gram Positive
