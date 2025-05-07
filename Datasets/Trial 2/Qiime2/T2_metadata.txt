@@ -1,0 +1,254 @@
+sample-id	pathogen_added	spike	spike_amount	pmaxx
+#q2:types	categorical	categorical	categorical	categorical
+				
+A1	0	no	1:1000	no
+				
+A2	0	no	1:1000	no
+				
+A3	0	no	1:1000	no
+				
+A4	0	no	1:1000	no
+				
+A5	0	no	1:10	no
+				
+A6	0	no	1:10	no
+				
+A7	0	no	1:10	no
+				
+A8	0	no	1:10	no
+				
+B1	0.1 CFU/ml	yes	1:1000	yes
+				
+B2	0.1 CFU/ml	yes	1:1000	yes
+				
+B3	0.1 CFU/ml	yes	1:1000	yes
+				
+B4	0.1 CFU/ml	yes	1:1000	yes
+				
+B5	0.1 CFU/ml	yes	1:10	yes
+				
+B6	0.1 CFU/ml	yes	1:10	yes
+				
+B7	0.1 CFU/ml	yes	1:10	yes
+				
+B8	0.1 CFU/ml	yes	1:10	yes
+				
+C1	1 CFU/ml	yes	1:1000	yes
+				
+C2	1 CFU/ml	yes	1:1000	yes
+				
+C3	1 CFU/ml	yes	1:1000	yes
+				
+C4	1 CFU/ml	yes	1:1000	yes
+				
+C5	1 CFU/ml	yes	1:10	yes
+				
+C6	1 CFU/ml	yes	1:10	yes
+				
+C7	1 CFU/ml	yes	1:10	yes
+				
+C8	1 CFU/ml	yes	1:10	yes
+				
+D1	10 CFU/ml	yes	1:1000	yes
+				
+D2	10 CFU/ml	yes	1:1000	yes
+				
+D3	10 CFU/ml	yes	1:1000	yes
+				
+D4	10 CFU/ml	yes	1:1000	yes
+				
+D5	10 CFU/ml	yes	1:10	yes
+				
+D6	10 CFU/ml	yes	1:10	yes
+				
+D7	10 CFU/ml	yes	1:10	yes
+				
+D8	10 CFU/ml	yes	1:10	yes
+				
+E1	100 CFU/ml	yes	1:1000	yes
+				
+E2	100 CFU/ml	yes	1:1000	yes
+				
+E3	100 CFU/ml	yes	1:1000	yes
+				
+E4	100 CFU/ml	yes	1:1000	yes
+				
+E5	100 CFU/ml	yes	1:10	yes
+				
+E6	100 CFU/ml	yes	1:10	yes
+				
+E7	100 CFU/ml	yes	1:10	yes
+				
+E8	100 CFU/ml	yes	1:10	yes
+				
+F1	1000 CFU/ml	yes	1:1000	yes
+				
+F2	1000 CFU/ml	yes	1:1000	yes
+				
+F3	1000 CFU/ml	yes	1:1000	yes
+				
+F4	1000 CFU/ml	yes	1:1000	yes
+				
+F5	1000 CFU/ml	yes	1:10	yes
+				
+F6	1000 CFU/ml	yes	1:10	yes
+				
+F7	1000 CFU/ml	yes	1:10	yes
+				
+F8	1000 CFU/ml	yes	1:10	yes
+				
+LV1	0	yes	1:1000	yes
+				
+LV2	0	yes	1:1000	yes
+				
+LV3	0	yes	1:1000	yes
+				
+LV4	0	yes	1:1000	yes
+				
+LV5	0	yes	1:10	yes
+				
+LV6	0	yes	1:10	yes
+				
+LV7	0	yes	1:10	yes
+				
+LV8	0	yes	1:10	yes
+				
+HT1	0	yes	1:1000	yes
+				
+HT2	0	yes	1:1000	yes
+				
+HT3	0	yes	1:1000	yes
+				
+HT4	0	yes	1:1000	yes
+				
+HT5	0	yes	1:10	yes
+				
+HT6	0	yes	1:10	yes
+				
+HT7	0	yes	1:10	yes
+				
+HT8	0	yes	1:10	yes
+				
+WC1	0	yes	1:1000	yes
+				
+WC2	0	yes	1:10	yes
+				
+BCA1	0	yes	1:1000	yes
+				
+BCA2	0	yes	1:1000	yes
+				
+BCA3	0	yes	1:1000	yes
+				
+BCA4	0	yes	1:1000	yes
+				
+BCA5	0	yes	1:10	yes
+				
+BCA6	0	yes	1:10	yes
+				
+BCA7	0	yes	1:10	yes
+				
+BCA8	0	yes	1:10	yes
+				
+BCB1	0	yes	1:1000	yes
+				
+BCB2	0	yes	1:1000	yes
+				
+BCB3	0	yes	1:1000	yes
+				
+BCB4	0	yes	1:1000	yes
+				
+BCB5	0	yes	1:10	yes
+				
+BCB6	0	yes	1:10	yes
+				
+BCB7	0	yes	1:10	yes
+				
+BCB8	0	yes	1:10	yes
+				
+BCC1	0	yes	1:1000	yes
+				
+BCC2	0	yes	1:1000	yes
+				
+BCC3	0	yes	1:1000	yes
+				
+BCC4	0	yes	1:1000	yes
+				
+BCC5	0	yes	1:10	yes
+				
+BCC6	0	yes	1:10	yes
+				
+BCC7	0	yes	1:10	yes
+				
+BCC8	0	yes	1:10	yes
+				
+BCD1	0	yes	1:1000	yes
+				
+BCD2	0	yes	1:1000	yes
+				
+BCD3	0	yes	1:1000	yes
+				
+BCD4	0	yes	1:1000	yes
+				
+BCD5	0	yes	1:10	yes
+				
+BCD6	0	yes	1:10	yes
+				
+BCD7	0	yes	1:10	yes
+				
+BCD8	0	yes	1:10	yes
+				
+BCE1	0	yes	1:1000	yes
+				
+BCE2	0	yes	1:1000	yes
+				
+BCE3	0	yes	1:1000	yes
+				
+BCE4	0	yes	1:1000	yes
+				
+BCE5	0	yes	1:10	yes
+				
+BCE6	0	yes	1:10	yes
+				
+BCE7	0	yes	1:10	yes
+				
+BCE8	0	yes	1:10	yes
+				
+BCF1	0	yes	1:1000	yes
+				
+BCF2	0	yes	1:1000	yes
+				
+BCF3	0	yes	1:1000	yes
+				
+BCF4	0	yes	1:1000	yes
+				
+BCF5	0	yes	1:10	yes
+				
+BCF6	0	yes	1:10	yes
+				
+BCF7	0	yes	1:10	yes
+				
+BCF8	0	yes	1:10	yes
+				
+LS1	0	yes	1:1000	yes
+				
+LS2	0	yes	1:1000	yes
+				
+LS3	0	yes	1:1000	yes
+				
+LS4	0	yes	1:1000	yes
+				
+LS5	0	yes	1:1000	yes
+				
+LS6	0	yes	1:1000	yes
+				
+EF1	0	yes	1:1000	yes
+				
+EF2	0	yes	1:1000	yes
+				
+EF3	0	yes	1:1000	yes
+				
+EF4	0	yes	1:1000	yes
+				
+EF5	0	yes	1:1000	yes
+				
+EF6	0	yes	1:1000	yes
