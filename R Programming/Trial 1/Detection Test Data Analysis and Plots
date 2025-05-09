@@ -11,6 +11,7 @@ library(scales)
 library(ggpattern)
 library(lemon)
 library(RColorBrewer)
+library(ggsci)
 
 #Load in data set's
 
@@ -210,25 +211,23 @@ ReadsDunn4 <- dunn_test(data = Presencedata1, Reads ~ Treatment)
 #Download data set as csv
 write.csv(ReadsDunn4, file = "ReadsDunn4.csv", row.names = FALSE)
 
+theme_set(theme_classic())
 
 Listeriaplot <- presencedatafinal %>%
   filter(Treatment == "Listeria", Taxonomy == "L") %>%
-  ggplot(aes(x = Lysis, y = Frequency)) + 
-  geom_jitter(, width = 0.2, size = 1.5) +# Removed 'pattern' aesthetics for boxplot
-  stat_boxplot(geom = "errorbar", width = 0.15) + # Adds error bars to the boxplot
-  geom_boxplot(outlier.shape = 16, outlier.size = 2) + # Adds the actual boxplot with visible outliers
-  ggtitle(listeriatitle) + # Sets the plot title
-  labs(x = "Sample ID", y = "Frequency") + # Adds axis labels
-  scale_fill_npg() + # Customizes fill colors
- # Sets a minimal theme
-  theme(legend.position = "none") # Removes the legend for fill
-
+  ggplot(aes(x = Sample_ID, y = Frequency, fill = Sample_ID, pattern = Lysis)) +
+  geom_bar_pattern(stat = "identity") +
+  xlab("Repeat") +
+  ylab(listeriayaxis) +
+  geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
+  scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
+  guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
+  scale_fill_npg()
 Listeriaplot
-  
-listeriatitle <- expression(paste(italic("Listeria monocytogenes"), " presence/absence test"))
-listeriayaxis <- expression(paste("Number of ASV reads for", italic(" Listeria monocytogenes")))
 
-ggsave("Listeria.png", Listeriaplot, dpi = 600)
+listeriayaxis <- expression(paste("Number of reads for", italic(" Listeria")))
+
+ggsave("Listeria.png", Listeriaplot, width = 10, height = 6, dpi = 600)
 
 Campyplot <- presencedatafinal %>%
   filter(Treatment == "Campylobacter", Taxonomy == "C") %>%
@@ -236,16 +235,14 @@ Campyplot <- presencedatafinal %>%
   geom_bar_pattern(stat = "identity") +
   xlab("Repeat") +
   ylab(campyyaxis) +
-  ggtitle(campytitle) +
   geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
   scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
   guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
   scale_fill_npg()
 
-campytitle <- expression(paste(italic("Campylobacter jejuni"), " presence/absence test"))
-campyyaxis <- expression(paste("Number of ASV reads for", italic(" Campylobacter jejuni")))
+campyyaxis <- expression(paste("Number of reads for", italic(" Campylobacter")))
 
-ggsave("campy.png", Campyplot, dpi = 600)
+ggsave("campy.png", Campyplot, width = 10, height = 6, dpi = 600)
 
 salmonellaplot <- presencedatafinal %>%
   filter(Treatment == "Salmonella", Taxonomy == "S") %>%
@@ -253,17 +250,18 @@ salmonellaplot <- presencedatafinal %>%
   geom_bar_pattern(stat = "identity") +
   xlab("Repeat") +
   ylab(salyyaxis) +
-  ggtitle(saltitle) +
   geom_col_pattern(colour = "black", pattern_fill = 'black', pattern_angle = 45, pattern_density = 0.02, pattern_spacing = 0.02, pattern_key_scale_factor = 0.6) +
   scale_pattern_manual(values = c("Gram-positive Lysis" = "stripe", "Gram-negative Lysis" = "none")) +
   guides(fill = "none", pattern = guide_legend(title = "Lysis Method", override.aes = list(fill = "white"))) +
   scale_fill_npg()
 
-saltitle <- expression(paste(italic("Salmonella nottigham"), " presence/absence test"))
-salyyaxis <- expression(paste("Number of ASV reads for", italic(" Salmonella nottigham")))
+salyyaxis <- expression(paste("Number of reads for", italic(" Salmonella")))
 
-ggsave("salmonella.png", salmonellaplot, dpi = 600)
+ggsave("salmonella.png", salmonellaplot, width = 10, height = 6, dpi = 600)
 
+salmonellaplot
+Campyplot
+Listeriaplot
 
 all <- presencedatafinal %>%
   ggplot(aes(x = Taxonomy, y = Frequency, fill = Taxonomy, pattern = Lysis)) +
@@ -285,7 +283,7 @@ all <- averaged_data %>%
   ggplot(aes(x = Taxonomy, y = Frequency, fill = Taxonomy, pattern = Lysis)) +
   geom_bar_pattern(stat = "identity") +
   xlab("Taxonomy") +
-  ylab("Average number of ASV reads (log scale)") +
+  ylab("Average number of reads (log scale)") +
   facet_grid(Lysis ~ Treatment) +
   geom_text(aes(label = scales::comma(Frequency)),
             data = averaged_data %>% filter(Frequency > 0),
