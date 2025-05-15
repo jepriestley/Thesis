@@ -8,7 +8,7 @@
         --o-search-results tophits.qza
 
 qiime tools export \
-  --input-path Trial-silva-single-v3v4-99-BLAST-results.qza  \
+  --input-path Trial-single-v3v4-99-BLAST-results.qza  \
   --output-path Trialsilvasinglev3v499BLASTresults
 
 % qiime taxa collapse \
